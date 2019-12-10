@@ -26,7 +26,7 @@ public class SearchBean implements Serializable{
 	private ArrayList<String> selectedFuelTypes;
 	private ArrayList<Vehicle> vehicles;
 	private ArrayList<Vehicle> selectedVehicles;
-	private int vehicleCount;
+	private int vehicleCount;       
 	
 	@PostConstruct
 	public void init() {
