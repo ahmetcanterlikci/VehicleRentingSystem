@@ -1,4 +1,4 @@
-package com.jsf.search;
+package com.jsf.office;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,11 +6,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import com.jsf.entity.Vehicle;
+import com.jsf.entity.Office;
 
 @ManagedBean
 @ViewScoped
-public class SearchBean implements Serializable{
+public class officeBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private ArrayList<String> nameSelections;
 	private ArrayList<String> classSelections;
@@ -20,23 +20,23 @@ public class SearchBean implements Serializable{
 	
 	private String selectedPriceRange;
 	private ArrayList<String> selectedNames;
-	private ArrayList<String> selectedClasses;
+	private ArrayList<String> selectedCities;
 	private ArrayList<String> selectedVehicleTypes;
 	private ArrayList<String> selectedGearTypes;
 	private ArrayList<String> selectedFuelTypes;
-	private ArrayList<Vehicle> vehicles;
-	private ArrayList<Vehicle> selectedVehicles;
-	private int vehicleCount;       
+	private ArrayList<Office> Offices;
+	private ArrayList<Office> selectedOffices;
+	private int officeCount;       
 	
 	@PostConstruct
 	public void init() {
 		selectedNames = new ArrayList<String>(); // prepare the attributes
-		selectedClasses = new ArrayList<String>();
+		selectedCities = new ArrayList<String>();
 		selectedVehicleTypes = new ArrayList<String>();
 		selectedGearTypes = new ArrayList<String>();
 		selectedFuelTypes = new ArrayList<String>();
-		vehicles = new ArrayList<Vehicle>();
-		selectedVehicles = vehicles;
+		Offices = new ArrayList<Office>();
+		selectedOffices = Offices;
 		
 		nameSelections = new ArrayList<String>(); 
 		classSelections = new ArrayList<String>(); 
@@ -44,46 +44,20 @@ public class SearchBean implements Serializable{
 		gearTypeSelections = new ArrayList<String>(); 
 		fuelTypeSelections = new ArrayList<String>(); 
 		
-		receiveVehicles(); // prepare the vehicles
+		receiveOffices(); // prepare the vehicles
 		
-		vehicleCount = vehicles.size();
+		officeCount = Offices.size();
 		
 	}
 	
-	public void receiveVehicles() { // load the vehicles from database
-		Vehicle v1 = new Vehicle("22ABC2222", "Good", "Not Rented", 100,
-			"Luxury", "Auto", "Fuel", "SUV", "5",
-			"15 kg", "1", "Yes", "Yes",
-			"İstanbul Kadıköy Office", "Mercedes Sport 5CX", "Mercedes");
-		Vehicle v2 = new Vehicle("22ABC2222", "Good", "Not Rented", 100,
-				"Luxury", "Auto", "Fuel", "SUV", "5",
-				"15 kg", "1", "Yes", "Yes",
-				"İstanbul Kadıköy Office", "Mercedes Sport 5CX", "Mercedes");
-		Vehicle v3 = new Vehicle("22ABC2222", "Good", "Not Rented", 100,
-				"Luxury", "Auto", "Fuel", "SUV", "5",
-				"15 kg", "1", "Yes", "Yes",
-				"İstanbul Kadıköy Office", "Mercedes Sport 5CX", "Mercedes");
-		Vehicle v4 = new Vehicle("22ABC2222", "Good", "Not Rented", 100,
-				"Luxury", "Auto", "Fuel", "SUV", "5",
-				"15 kg", "1", "Yes", "Yes",
-				"İstanbul Kadıköy Office", "Mercedes Sport 5CX", "Mercedes");
-		Vehicle v5 = new Vehicle("34ABC3456", "Good", "Not Rented", 150,
-				"Medium", "Manuel", "Diesel", "Sport", "2",
-				"10 kg", "2", "Yes", "Yes",
-				"İstanbul Beşiktaş Office", "Renault Sedan KLS", "Renault");
-		Vehicle v6 = new Vehicle("49DCD3456", "Good", "Not Rented", 150,
-				"Economic", "Manuel", "Diesel", "Hatchback", "1",
-				"10 kg", "2", "Yes", "Yes",
-				"İzmir Seka Office", "Ford Focus 2015", "Ford");
+	public void receiveOffices() { // load the vehicles from database
+		Office v1 = new Office("Bursa Office", "bursa.grent@hotmail.com", "Keles", "04582979375","0850852917",
+			"Pazartesi-Cuma", "7.30-23.45", "Bursa","Turkey");
 		
-		vehicles.add(v1);
-		vehicles.add(v2);
-		vehicles.add(v3);
-		vehicles.add(v4);
-		vehicles.add(v5);
-		vehicles.add(v6);
+		Offices.add(v1);
 		
-		setFilters();
+		
+		//setFilters();
 		
 	}
 	
@@ -92,20 +66,20 @@ public class SearchBean implements Serializable{
 		boolean c = checkForFilter();
 		
 		if (c == false) {
-			selectedVehicles = vehicles;
+			selectedOffices = Offices;
 		}else {
-			selectedVehicles = new ArrayList<Vehicle>();
+			selectedOffices = new ArrayList<Office>();
 			
-			for (int i = 0; i < vehicles.size(); i++) {
-				Vehicle v = vehicles.get(i);
+			for (int i = 0; i < Offices.size(); i++) {
+				Office v = Offices.get(i);
 				
 				boolean control = true;
-				if(selectedPriceRange != null && !selectedPriceRange.equals("")) {
+			/*	if(selectedPriceRange != null && !selectedPriceRange.equals("")) {
 					if(!checkPriceRange(String.valueOf(v.getDailyprice()))) {
 						control = false;
 					}
 				}
-				if(!classSelections.isEmpty()) {
+			if(!classSelections.isEmpty()) {
 					if(!checkClasses(v.getVehicleClass())) {
 						control = false;
 					}
@@ -130,14 +104,14 @@ public class SearchBean implements Serializable{
 						control = false;
 					}
 				}
-				
+				*/
 				if(control == true) {
-					selectedVehicles.add(v);
+					selectedOffices.add(v);
 				}
 			}
 		}
 		
-		vehicleCount = selectedVehicles.size();
+		officeCount = selectedOffices.size();
 		
 	}
 	
@@ -212,7 +186,8 @@ public class SearchBean implements Serializable{
 	public boolean checkForFilter() {
 		if(selectedPriceRange != null) {
 			return true;
-		}else if(!classSelections.isEmpty()) {
+		}
+		else if(!classSelections.isEmpty()) {
 			return true;
 		}else if (!fuelTypeSelections.isEmpty()) {
 			return true;
@@ -225,7 +200,7 @@ public class SearchBean implements Serializable{
 		}else
 			return false; // there is no filter selection
 	}
-	
+	/*
 	public void setFilters() { // find the existing filter options for the filter panel
 		filterNames();
 		filterClasses();
@@ -234,7 +209,7 @@ public class SearchBean implements Serializable{
 	    filterVehicleTypes();
 	}
 
-	public void filterNames() {
+	 public void filterNames() {
 		for (int i = 0; i < vehicles.size(); i++) {
 			boolean c = false;
 			for (int j = 0; j < selectedNames.size(); j++) {
@@ -301,9 +276,9 @@ public class SearchBean implements Serializable{
 			if (c == false ) {
 				selectedFuelTypes.add(vehicles.get(i).getFuelType());
 			}
-		}
-	}
-	
+		} 
+	}*/
+
 	public ArrayList<String> getNameSelections() {
 		return nameSelections;
 	}
@@ -360,12 +335,17 @@ public class SearchBean implements Serializable{
 		this.selectedNames = selectedNames;
 	}
 
-	public ArrayList<String> getSelectedClasses() {
-		return selectedClasses;
+
+	public ArrayList<String> getSelectedCities() {
+		return selectedCities;
+	}
+
+	public void setSelectedCities(ArrayList<String> selectedCities) {
+		this.selectedCities = selectedCities;
 	}
 
 	public void setSelectedClasses(ArrayList<String> selectedClasses) {
-		this.selectedClasses = selectedClasses;
+		this.selectedCities = selectedClasses;
 	}
 
 	public ArrayList<String> getSelectedVehicleTypes() {
@@ -392,28 +372,34 @@ public class SearchBean implements Serializable{
 		this.selectedFuelTypes = selectedFuelTypes;
 	}
 
-	public ArrayList<Vehicle> getVehicles() {
-		return vehicles;
+	public ArrayList<Office> getOffices() {
+		return Offices;
 	}
 
-	public void setVehicles(ArrayList<Vehicle> vehicles) {
-		this.vehicles = vehicles;
+	public void setOffices(ArrayList<Office> offices) {
+		Offices = offices;
 	}
 
-	public ArrayList<Vehicle> getSelectedVehicles() {
-		return selectedVehicles;
+	public ArrayList<Office> getSelectedOffices() {
+		return selectedOffices;
 	}
 
-	public void setSelectedVehicles(ArrayList<Vehicle> selectedVehicles) {
-		this.selectedVehicles = selectedVehicles;
+	public void setSelectedOffices(ArrayList<Office> selectedOffices) {
+		this.selectedOffices = selectedOffices;
+	}
+
+	public int getOfficeCount() {
+		return officeCount;
+	}
+
+	public void setOfficeCount(int officeCount) {
+		this.officeCount = officeCount;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
-	public int getVehicleCount() {
-		return vehicleCount;
-	}
-	
-	public void setVehicleCount(int vehicleCount) {
-		this.vehicleCount = vehicleCount;
-	}
+//getter setters
 
 }

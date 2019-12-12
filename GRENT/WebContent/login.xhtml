@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>GRENT - HOME</title>
+	<script src="https://kit.fontawesome.com/f4dcd45d8c.js"></script>
+
+</h:head>
+<h:body>
+
+	<h:outputStylesheet libray="default" name="css/main.css" />
+	<h:outputStylesheet libray="default" name="css/w3.css" />
+	<h:outputScript library="js" name="main.js" />
+
+
+	<h:form>
+
+		<div class="row">
+			<div class="col-3">
+				<div class="header">
+					<h1 style="font-weight: bold; margin-bottom: -5%; margin-top: -4%;">GRENT</h1>
+				</div>
+			</div>
+
+			<div class="col-7"></div>
+
+			<div class="col-2" style="margin-top: 1%;">
+				<i class="fab fa-facebook"
+					style="font-size: 30px; margin-right: 5%; margin-left: 15%"></i> <i
+					class="fab fa-twitter" style="font-size: 30px; margin-right: 5%"></i>
+				<i class="fab fa-instagram" style="font-size: 30px;"></i>
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+
+				<div class="topnav">
+					<div class="row">
+						<div class="col-4">
+							<a class="active" href="index.xhtml">Home</a> <a href="#contact">Offices</a>
+							<a href="#contact">Vehicles</a> <a href="#about">About</a> <a
+								href="#contact">Contact</a>
+						</div>
+						<div class="col-5"></div>
+						<div class="col-3">
+							<div class="dropdown" style="margin-left: 10%;">
+								<button class="dropbtn" style="width: 150%;">Login</button>
+								<div class="dropdown-content">
+									<a href="myprofile.html">My Profile</a> <a href="#">My
+										Comments</a> <a href="#">Our Policy</a> <a href="visitorhome.html">Exit</a>
+								</div>
+							</div>
+							<a href="chart.html" style="float: right; margin-top: -1%;">
+								<i class="fas fa-shopping-cart"
+								style="font-size: 36px; float: right;"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-3"></div>
+			<div class="col-6 w3-container w3-card-4 w3-light-grey">
+				<div class="row">
+					<h2 style="font-weight: bold;">LOGIN</h2>
+				</div>
+				<div class="row">
+					<p:panel id="loginPanel">
+						<h3>Username:</h3>
+						<span class="ui-float-label"> <p:inputText
+								id="loginUsername" value="#{loginBean.username}" /> <p:outputLabel
+								for="@previous" value="Username" />
+						</span>
+						<h3>Password:</h3>
+						<span class="ui-float-label"> <p:password
+								id="loginPassword" value="#{loginBean.password}" /> <p:outputLabel
+								for="@previous" value="Password" />
+						</span>
+						<p:commandButton value="Log In" action="loginBean.validateUser"/>
+						<p:messages id="warningMessage" />
+					</p:panel>
+				</div>
+			</div>
+			<div class="col-3"></div>
+		</div>
+
+		<div class="row">
+			<div class="col-12"
+				style="border-top-style: groove; margin-top: 5%; background-color: #717171;">
+				<div class="row">
+					<div class="col-2">
+						<h6 style="color: white; margin-top: -3%;">HELP / CONTACT</h6>
+						<h6
+							style="color: white; margin-top: -3%; font-size: 93%; margin-left: 5%;">0850-346-8080</h6>
+					</div>
+					<div class="col-8"></div>
+					<div class="col-2"></div>
+				</div>
+
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-8">
+						<h6 style="text-align: center; margin-bottom: -20px;">©
+							Copyright 2019 GRENT Inc. All rights are reserverd.</h6>
+					</div>
+					<div class="col-2"></div>
+				</div>
+
+			</div>
+		</div>
+
+	</h:form>
+
+</h:body>
+</html>
