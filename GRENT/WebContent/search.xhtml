@@ -18,6 +18,7 @@
 
 
 	<h:form>
+
 		<div class="row">
 			<div class="col-3">
 				<div class="header">
@@ -49,10 +50,16 @@
 						<div class="col-5"></div>
 						<div class="col-3">
 							<div class="dropdown" style="margin-left: 10%;">
-								<button class="dropbtn" style="width: 150%;">Login</button>
+								<button class="dropbtn" style="width: 150%;">#{mainBean.navigationBarName}</button>
 								<div class="dropdown-content">
-									<a href="myprofile.html">My Profile</a> <a href="#">My
-										Comments</a> <a href="#">Our Policy</a> <a href="visitorhome.html">Exit</a>
+									<p:repeat value="#{mainBean.navigationBarContents}" 
+										var="content">
+										<p:commandLink action="#{mainBean.navigationAction}">
+											<h:outputText value="#{content.name}" />
+											<f:param name="exit" value="#{content.name}" />    
+											<f:param name="path" value="#{content.path}" />  
+										</p:commandLink>
+									</p:repeat>
 								</div>
 							</div>
 							<a href="chart.html" style="float: right; margin-top: -1%;">
@@ -199,7 +206,7 @@
 									<h5>Fuel: #{vehicle.fuelType}</h5>
 									<h5>Gear: #{vehicle.gearType}</h5>
 									<h5>Luggage: #{vehicle.avaliableLuggage}</h5>
-									<h5>Gear: #{vehicle.gearType}</h5>
+									<h5>Class: #{vehicle.vehicleClass}</h5>
 								</div>
 							</div>
 							<div class="col-3">
