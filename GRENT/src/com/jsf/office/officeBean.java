@@ -2,7 +2,9 @@ package com.jsf.office;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -79,7 +81,7 @@ public class officeBean implements Serializable{
 	        	String city = resultSet1.getString("city");
 	        	String country  = resultSet1.getString("country");
 	            Office office = new Office(name, isDeleted, email, address,phone, fax, workingDays, workingHours, city, country);
-	            offices.add(office);
+	            //offices.add(office);
 	        }
 	        
 			} catch (SQLException e) {
