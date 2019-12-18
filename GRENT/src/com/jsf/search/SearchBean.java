@@ -1,12 +1,28 @@
 package com.jsf.search;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import org.primefaces.component.timeline.DefaultTimelineUpdater;
+
+import com.jsf.database.DatabaseManager;
+import com.jsf.entity.Office;
 import com.jsf.entity.Vehicle;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 @ManagedBean
 @ViewScoped
@@ -26,7 +42,8 @@ public class SearchBean implements Serializable{
 	private ArrayList<String> selectedFuelTypes;
 	private ArrayList<Vehicle> vehicles;
 	private ArrayList<Vehicle> selectedVehicles;
-	private int vehicleCount;       
+	private int vehicleCount;
+	private Connection connection;
 	
 	@PostConstruct
 	public void init() {
@@ -44,47 +61,100 @@ public class SearchBean implements Serializable{
 		gearTypeSelections = new ArrayList<String>(); 
 		fuelTypeSelections = new ArrayList<String>(); 
 		
+		DatabaseManager.initiliaze(); // init Database
+		connection = DatabaseManager.getConnection();
+		
 		receiveVehicles(); // prepare the vehicles
 		
 		vehicleCount = vehicles.size();
 		
+		
+		
 	}
 	
 	public void receiveVehicles() { // load the vehicles from database
-		Vehicle v1 = new Vehicle("22ABC2222", "Good", "Not Rented", 100,
-			"Luxury", "Auto", "Fuel", "SUV", "5",
-			"15 kg", "1", "Yes", "Yes",
-			"İstanbul Kadıköy Office", "Mercedes Sport 5CX", "Mercedes");
-		Vehicle v2 = new Vehicle("22ABC2222", "Good", "Not Rented", 100,
-				"Luxury", "Auto", "Fuel", "SUV", "5",
-				"15 kg", "1", "Yes", "Yes",
-				"İstanbul Kadıköy Office", "Mercedes Sport 5CX", "Mercedes");
-		Vehicle v3 = new Vehicle("22ABC2222", "Good", "Not Rented", 100,
-				"Luxury", "Auto", "Fuel", "SUV", "5",
-				"15 kg", "1", "Yes", "Yes",
-				"İstanbul Kadıköy Office", "Mercedes Sport 5CX", "Mercedes");
-		Vehicle v4 = new Vehicle("22ABC2222", "Good", "Not Rented", 100,
-				"Luxury", "Auto", "Fuel", "SUV", "5",
-				"15 kg", "1", "Yes", "Yes",
-				"İstanbul Kadıköy Office", "Mercedes Sport 5CX", "Mercedes");
-		Vehicle v5 = new Vehicle("34ABC3456", "Good", "Not Rented", 150,
-				"Medium", "Manuel", "Diesel", "Sport", "2",
-				"10 kg", "2", "Yes", "Yes",
-				"İstanbul Beşiktaş Office", "Renault Sedan KLS", "Renault");
-		Vehicle v6 = new Vehicle("49DCD3456", "Good", "Not Rented", 150,
-				"Economic", "Manuel", "Diesel", "Hatchback", "1",
-				"10 kg", "2", "Yes", "Yes",
-				"İzmir Seka Office", "Ford Focus 2015", "Ford");
-		
-		vehicles.add(v1);
-		vehicles.add(v2);
-		vehicles.add(v3);
-		vehicles.add(v4);
-		vehicles.add(v5);
-		vehicles.add(v6);
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(
+				        "SELECT * FROM vehicle ");
+	        ResultSet resultSet1 = pstmt.executeQuery();
+	        
+	        ResultSetMetaData rsMetaData = resultSet1.getMetaData();
+			resultSet1.beforeFirst();
+	        while (resultSet1.next()) {
+	        	String plateNumber = resultSet1.getString("plateNumber");
+	            String physicalStatus = resultSet1.getString("physicalStatus");
+	        	String rentingStatus = resultSet1.getString("rentingStatus");
+	        	int dailyprice  = resultSet1.getInt("dailyPrice");
+	        	String vehicleClass = resultSet1.getString("class");
+	        	String gearType = resultSet1.getString("gearType");
+	        	String fuelType = resultSet1.getString("fuelType");
+	        	String type = resultSet1.getString("type");
+	        	String numberOfSeats = resultSet1.getString("numberOfSeats");
+	        	String avaliableLuggage = resultSet1.getString("avaliableLuggage");
+	            String minimumYearsOfLicense = resultSet1.getString("minmumYearsOfLicense");
+	        	String airbags = resultSet1.getString("airbags");
+	        	String airConditioning = resultSet1.getString("airConditioning");
+	        	String currentOfficeName = resultSet1.getString("currentOfficeName");
+	        	String name = resultSet1.getString("name");
+	        	String brand = resultSet1.getString("brand");
+	        	String modelNumber = resultSet1.getString("modelNumber");
+	        	Date rentStart = resultSet1.getDate("rentStart");
+	        	Date rentEnd = resultSet1.getDate("rentEnd");
+	        	
+	        	Vehicle newVehicle = new Vehicle(plateNumber, physicalStatus, rentingStatus, dailyprice,vehicleClass, gearType, fuelType,  type, numberOfSeats,
+	        			avaliableLuggage, minimumYearsOfLicense,airbags, airConditioning,
+	        			currentOfficeName, name,  brand, modelNumber, rentStart, rentEnd);
+	        	vehicles.add(newVehicle);
+	        	
+	        }
+	        
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		setFilters();
 		
+	}
+
+	public void searchAction() {
+		
+		try {
+			Map<String,String> params = 
+	                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		    String receivingOffice = params.get("receivingOfficeParam");
+		    String returningOffice = params.get("returningOfficeParam");
+		    String returningDate = params.get("returningDateParam");
+		    String receivingDate = params.get("receivingDateParam");
+		    
+		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+			Date receivingDateNew = formatter.parse(receivingDate);
+			Date returningDateNew = formatter.parse(returningDate);
+			
+			filter();
+		    
+		    ArrayList<Vehicle> newvehiclesArrayList = new ArrayList<Vehicle>();
+		    
+		    for (int i = 0; i < selectedVehicles.size(); i++) {
+		    	Vehicle vehicle = selectedVehicles.get(i);
+				if(vehicle.getRentingStatus().equals("Not Rented")) {
+					if(vehicle.getCurrentOfficeName().equals(receivingOffice)) {
+						newvehiclesArrayList.add(vehicle);
+					}
+				}else {
+					if(vehicle.getRentEnd().before(receivingDateNew) && vehicle.getRentStart().after(returningDateNew) && 
+							vehicle.getCurrentOfficeName().equals(receivingOffice)) {
+						newvehiclesArrayList.add(vehicle);
+					}
+				}
+			}
+		    
+		    selectedVehicles = newvehiclesArrayList;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
 	}
 	
 	public void filter() { // filter action

@@ -1,5 +1,7 @@
 package com.jsf.entity;
 
+import java.util.Date;
+
 public class Vehicle {
 	private String plateNumber;
 	private String physicalStatus;
@@ -17,6 +19,9 @@ public class Vehicle {
 	private String currentOfficeName;
 	private String name;
 	private String brand;
+	private String modelNumber; 
+	private Date rentStart;
+	private Date rentEnd;
 
 	public Vehicle() {
 
@@ -25,7 +30,7 @@ public class Vehicle {
 	public Vehicle(String plateNumber, String physicalStatus, String rentingStatus, int dailyprice,
 			String vehicleClass, String gearType, String fuelType, String type, String numberOfSeats,
 			String avaliableLuggage, String minimumYearsOfLicense, String airbags, String airConditioning,
-			String currentOfficeName, String name, String brand) {
+			String currentOfficeName, String name, String brand, String modelNumber, Date rentStart, Date rentEnd) {
 		this.plateNumber = plateNumber;
 		this.physicalStatus = physicalStatus;
 		this.rentingStatus = rentingStatus;
@@ -42,6 +47,9 @@ public class Vehicle {
 		this.currentOfficeName = currentOfficeName;
 		this.name = name;
 		this.brand = brand;
+		this.modelNumber = modelNumber;
+		this.rentStart = rentStart;
+		this.rentEnd = rentEnd;
 	}
 
 	public String getPlateNumber() {
@@ -172,6 +180,30 @@ public class Vehicle {
 		this.brand = brand;
 	}
 	
+	
+	public String getModelNumber() {
+		return modelNumber;
+	}
+	
+	public Date getRentEnd() {
+		return rentEnd;
+	}
+	
+	public Date getRentStart() {
+		return rentStart;
+	}
+	
+	public void setModelNumber(String modelNumber) {
+		this.modelNumber = modelNumber;
+	}
+	
+	public void setRentEnd(Date rentEnd) {
+		this.rentEnd = rentEnd;
+	}
+	
+	public void setRentStart(Date rentStart) {
+		this.rentStart = rentStart;
+	}
 	
 
 }

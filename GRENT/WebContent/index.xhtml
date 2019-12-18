@@ -119,10 +119,16 @@
 						<div class="col-5"></div>
 						<div class="col-3">
 							<div class="dropdown" style="margin-left: 10%;">
-								<button class="dropbtn" style="width: 150%;">Login</button>
+								<button class="dropbtn" style="width: 150%;">#{mainBean.navigationBarName}</button>
 								<div class="dropdown-content">
-									<a href="myprofile.html">My Profile</a> <a href="#">My
-										Comments</a> <a href="#">Our Policy</a> <a href="visitorhome.html">Exit</a>
+									<p:repeat value="#{mainBean.navigationBarContents}" 
+										var="content">
+										<p:commandLink action="#{mainBean.navigationAction}">
+											<h:outputText value="#{content.name}" />
+											<f:param name="exit" value="#{content.name}" />    
+											<f:param name="path" value="#{content.path}" />  
+										</p:commandLink>
+									</p:repeat>
 								</div>
 							</div>
 							<a href="chart.html" style="float: right; margin-top: -1%;">
@@ -139,32 +145,32 @@
 			<div class="col-3 w3-container w3-card-4 w3-light-grey"
 				style="display: inline-block; margin-left: 1%; margin-top: 0.75%;">
 				<h5>Receiving Office</h5>
-				<p:selectOneMenu id="receivingOffice" style="width:250px;">
+				<p:selectOneMenu id="receivingOffice" style="width:250px;" value ="#{mainBean.receivingOfficeName}">
 					<!-- value="#{dropdownView.country}"  -->
-					<f:selectItem itemLabel="İstanbul Kadıköy Office" itemValue=""
-						noSelectionOption="true" />
-					<f:selectItems />
+					<f:selectItems value ="#{mainBean.offices}" var ="office" itemLabel="#{office.name}" itemValue='#{office.name}'/>
 					<!-- value="#{dropdownView.country}"  -->
 				</p:selectOneMenu>
 				<h5>Returning Office</h5>
-				<p:selectOneMenu id="returningOffice" style="width:250px;">
+				<p:selectOneMenu id="returningOffice" style="width:250px;" value ="#{mainBean.returningOfficeName}">
 					<!-- value="#{dropdownView.country}"  -->
-					<f:selectItem itemLabel="İstanbul Kadıköy Office" itemValue=""
-						noSelectionOption="true" />
-					<f:selectItems />
+					<f:selectItems value ="#{mainBean.offices}" var ="office" itemLabel="#{office.name}" itemValue='#{office.name}'/>
 					<!-- value="#{dropdownView.country}"  -->
 				</p:selectOneMenu>
 				<h5>Receiving Date</h5>
 				<p:datePicker id="receiveDate" showIcon="true" showTime="true"
-					style="width:250px;" />
+					style="width:250px;" value ="#{mainBean.receivingDate}"/>
 				<!-- value="#{dropdownView.country}"  -->
 				<h5>Returning Date</h5>
 				<p:datePicker id="returnDate" showIcon="true"
-					style="margin-bottom:7%; width:250px;" showTime="true" />
+					style="margin-bottom:7%; width:250px;" showTime="true" value ="#{mainBean.returningDate}" />
 				<br />
 				<p:commandButton value="Search"
-					style="font-size:15px; width:100px; height:30px; margin-bottom: 5%;" />
-				<!-- action="#{}" attribute-->
+					style="font-size:15px; width:100px; height:30px; margin-bottom: 5%;" action="#{searchBean.searchAction}" >
+					<f:param name="receivingOfficeParam" value="#{mainBean.receivingOfficeName}"/>
+					<f:param name="returningOfficeParam" value="#{mainBean.returningOfficeName}"/>
+					<f:param name="returningDateParam" value="#{mainBean.returningDate.toString}"/>
+					<f:param name="receivingDateParam" value="#{mainBean.receivingDate.toString}"/>
+					</p:commandButton>
 			</div>
 
 			<div class="col-8 w3-container w3-card-4 w3-light-grey"

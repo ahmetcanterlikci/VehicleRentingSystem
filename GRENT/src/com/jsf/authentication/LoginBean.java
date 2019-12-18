@@ -1,5 +1,7 @@
 package com.jsf.authentication;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import com.jsf.database.DatabaseManager;
@@ -18,7 +21,8 @@ import com.jsf.database.DatabaseManager;
 
 @ManagedBean
 @ViewScoped
-public class LoginBean {
+public class LoginBean implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	private String warningMessage;
@@ -50,37 +54,43 @@ public class LoginBean {
 		if(this.password!=null && !this.password.equals("")) {
 			try {
 			PreparedStatement pstmt = connection.prepareStatement(
-				        "SELECT * FROM registereduser WHERE username = ? and password = ? ");
+				        "SELECT * FROM registereduser WHERE username = ? and password = SHA1(?) ");
 			pstmt.setString(1,username);
 			pstmt.setString(2, password);
 	        ResultSet resultSet1 = pstmt.executeQuery();
 	        boolean registeredUser = checkDB(resultSet1);
 	        if(registeredUser) {
+	        	updateLoginManager(username, "RegisteredUser");
+	        	directToHomePage();
 	        	return;
 	        }
 	         
 	        PreparedStatement pstmt2 = connection.prepareStatement(
-			        "SELECT * FROM administrator WHERE username = ? and password = ? ");
+			        "SELECT * FROM administrator WHERE username = ? and password = SHA1(?) ");
 	        pstmt2.setString(1,username);
 			pstmt2.setString(2, password);
 	        ResultSet resultSet2 = pstmt2.executeQuery();
 	        boolean admin = checkDB(resultSet2);
 	        if(admin) {
+	        	updateLoginManager(username, "Admin");
+	        	directToHomePage();
 	        	return;
 	        }
 	        
 	        PreparedStatement pstmt3 = connection.prepareStatement(
-			        "SELECT * FROM officeuser WHERE username = ? and password = ? ");
+			        "SELECT * FROM officeuser WHERE username = ? and password = SHA1(?) ");
 	        pstmt3.setString(1,username);
 			pstmt3.setString(2, password);
 	        ResultSet resultSet3 = pstmt3.executeQuery();
 	        boolean officeuser = checkDB(resultSet3);
 	        if(officeuser) {
+	        	updateLoginManager(username, "OfficeUser");
+	        	directToHomePage();
 	        	return;
 	        }
 	        
 	        this.warningMessage="Wrong username or password.";
-	        FacesContext.getCurrentInstance().addMessage("loginPanel:warningMessage",
+	        FacesContext.getCurrentInstance().addMessage("warningMessage",
 	                new FacesMessage(this.warningMessage));
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -90,8 +100,22 @@ public class LoginBean {
 		}
 	}
 	
-	public void updateLoginManager() {
-		
+	public void updateLoginManager(String username, String role) {
+		LoginManager.setUsername(username);
+		LoginManager.setRole(role);
+		LoginManager.setLoggedIn(true);
+	}
+	
+	public void directToHomePage() {
+		ExternalContext ec = FacesContext.getCurrentInstance()
+		        .getExternalContext();
+		try {
+		    ec.redirect(ec.getRequestContextPath()
+		            + "/index.xhtml");
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
 	}
 	
 	public boolean checkDB(ResultSet resultSet) {
@@ -111,5 +135,15 @@ public class LoginBean {
 		
 		return false;
 	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	
 	
 }

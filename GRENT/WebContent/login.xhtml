@@ -70,24 +70,41 @@
 			<div class="col-3"></div>
 			<div class="col-6 w3-container w3-card-4 w3-light-grey">
 				<div class="row">
-					<h2 style="font-weight: bold;">LOGIN</h2>
+				<div class="col-3"></div>
+				<div class="col-6">
+				<h2 style="font-weight: bold; border-bottom-style: groove;">LOGIN</h2>
+				</div>
+				<div class="col-3"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col-3"></div>
+					<div class="col-6">
+					        <p:panel id="loginPanel">
+							<h3>Username:</h3>
+							<p:inputText id="loginUsername" value="#{loginBean.username}" style="width:100%;"/>
+							<h3>Password:</h3>
+							<p:password id="loginPassword" value="#{loginBean.password}" style="margin-bottom:5%; width:100%;"/>
+							</p:panel>
+					</div>
+					<div class="col-3"></div>
 				</div>
 				<div class="row">
-					<p:panel id="loginPanel">
-						<h3>Username:</h3>
-						<span class="ui-float-label"> <p:inputText
-								id="loginUsername" value="#{loginBean.username}" /> <p:outputLabel
-								for="@previous" value="Username" />
-						</span>
-						<h3>Password:</h3>
-						<span class="ui-float-label"> <p:password
-								id="loginPassword" value="#{loginBean.password}" /> <p:outputLabel
-								for="@previous" value="Password" />
-						</span>
-						<p:commandButton value="Log In" action="loginBean.validateUser"/>
-						<p:messages id="warningMessage" />
-					</p:panel>
+					<div class="col-3"></div>
+					<div class="col-6">
+						<p:commandButton value="Log In" action="#{loginBean.validateUser}" update="warningMessage" style="font-size: 20px; width:100%;"/>
+					</div>
+					<div class="col-3"></div>
 				</div>
+				<div class="row">
+					<div class="col-3"></div>
+					<div class="col-6">
+						<p:messages id="warningMessage" />
+						
+					</div>
+					<div class="col-3"></div>
+				</div>
+				
 			</div>
 			<div class="col-3"></div>
 		</div>
