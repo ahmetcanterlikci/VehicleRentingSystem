@@ -1,5 +1,7 @@
 package com.jsf.entity;
 
+import java.sql.Connection;
+
 public class Office {
 	private String name;
 	private int isDeleted;
@@ -11,6 +13,7 @@ public class Office {
 	private String workingHours;
 	private String city;
 	private String country;
+	private Connection connection;
 	public Office() {
 		
 	}
@@ -18,7 +21,6 @@ public class Office {
 			String address,String phone,String fax,String workingDays,
 			String workingHours,String city,String country) {
 		this.name=name;
-	
 		this.email=email;
 		this.address=address;
 		this.phone=phone;

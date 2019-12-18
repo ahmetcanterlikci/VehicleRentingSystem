@@ -1,12 +1,18 @@
 package com.jsf.office;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import com.jsf.database.DatabaseManager;
 import com.jsf.entity.Office;
+
 
 @ManagedBean
 @ViewScoped
@@ -27,9 +33,12 @@ public class officeBean implements Serializable{
 	private ArrayList<Office> Offices;
 	private ArrayList<Office> selectedOffices;
 	private int officeCount;       
+	private Connection connection;
 	
 	@PostConstruct
-	public void init() {
+	public void init() throws SQLException {
+		DatabaseManager.initiliaze();
+		connection = DatabaseManager.getConnection();
 		selectedNames = new ArrayList<String>(); // prepare the attributes
 		selectedCities = new ArrayList<String>();
 		selectedVehicleTypes = new ArrayList<String>();
@@ -37,7 +46,6 @@ public class officeBean implements Serializable{
 		selectedFuelTypes = new ArrayList<String>();
 		Offices = new ArrayList<Office>();
 		selectedOffices = Offices;
-		
 		nameSelections = new ArrayList<String>(); 
 		classSelections = new ArrayList<String>(); 
 		vehicleTypeSelections = new ArrayList<String>(); 
@@ -48,17 +56,36 @@ public class officeBean implements Serializable{
 		
 		officeCount = Offices.size();
 		
+		
 	}
 	
-	public void receiveOffices() { // load the vehicles from database
-		Office v1 = new Office("Bursa Office", "bursa.grent@hotmail.com", "Keles", "04582979375","0850852917",
-			"Pazartesi-Cuma", "7.30-23.45", "Bursa","Turkey");
-		
-		Offices.add(v1);
-		
-		
-		//setFilters();
-		
+	public void receiveOffices() {
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(
+				        "SELECT * FROM office ");
+	        ResultSet resultSet1 = pstmt.executeQuery();
+	        
+	        ResultSetMetaData rsMetaData = resultSet1.getMetaData();
+			resultSet1.beforeFirst();
+	        while (resultSet1.next()) {
+	        	String name = resultSet1.getString("name");
+	        	String isDeleted = resultSet1.getString("isDeleted");
+	        	String email = resultSet1.getString("email");
+	        	String address = resultSet1.getString("address");
+	        	String phone = resultSet1.getString("phone");
+	        	String fax = resultSet1.getString("fax");
+	        	String workingDays = resultSet1.getString("workingDays");
+	        	String workingHours = resultSet1.getString("workingHours");
+	        	String city = resultSet1.getString("city");
+	        	String country  = resultSet1.getString("country");
+	            Office office = new Office(name, isDeleted, email, address,phone, fax, workingDays, workingHours, city, country);
+	            offices.add(office);
+	        }
+	        
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 	public void filter() { // filter action
