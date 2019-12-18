@@ -71,24 +71,22 @@
 
 				<div class="row" style="border-bottom-style: groove">
 					<div class="col-12">
-						<h5 style="font-weight: bold;">VEHICLES</h5>
-						<h:panelGroup id="vehicleCount">
-							<h6>#{searchBean.vehicleCount} vehicles are found.</h6>
+						<h5 style="font-weight: bold;">OFFICES</h5>
+						<h:panelGroup id="officeCount">
+							<h6>#{officeBean.officeCount} offices are found.</h6>
 						</h:panelGroup>
 					</div>
 				</div>
 
 				<div class="row" style="border-bottom-style: groove">
 					<div class="col-12">
-						<h5 style="font-weight: bold;">Price</h5>
+						<h5 style="font-weight: bold;">Country</h5>
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
 								<p:selectOneRadio id="priceRange" layout="pageDirection"
-									value="#{searchBean.selectedPriceRange}">
-									<f:selectItem itemLabel="50 - 100" itemValue="10-20"></f:selectItem>
-									<f:selectItem itemLabel="100 - 150" itemValue="100-150"></f:selectItem>
-									<f:selectItem itemLabel="150 - 200" itemValue="150-200"></f:selectItem>
-									<f:selectItem itemLabel="200+" itemValue="200"></f:selectItem>
+									value="#{officeBean.selectedCities}">
+									<f:selectItem itemLabel="Turkey" itemValue="Turkey"></f:selectItem>
+									<f:selectItem itemLabel="Germany" itemValue="Germany"></f:selectItem>
 								</p:selectOneRadio>
 							</div>
 						</div>
@@ -101,8 +99,8 @@
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
 								<p:selectManyCheckbox id="name" layout="pageDirection"
-									value="#{searchBean.nameSelections}">
-									<f:selectItems value="#{searchBean.selectedNames}" var="name"
+									value="#{officeBean.nameSelections}">
+									<f:selectItems value="#{officeBean.selectedNames}" var="name"
 										itemLabel="#{name}" itemValue="#{name}" />
 								</p:selectManyCheckbox>
 							</div>
@@ -116,11 +114,7 @@
 						<h5 style="font-weight: bold;">Class</h5>
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
-								<p:selectManyCheckbox id="className" layout="pageDirection"
-									value="#{searchBean.classSelections}">
-									<f:selectItems value="#{searchBean.selectedClasses}" var="c"
-										itemLabel="#{c}" itemValue="#{c}" />
-								</p:selectManyCheckbox>
+								
 							</div>
 						</div>
 					</div>
@@ -131,8 +125,8 @@
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
 								<p:selectManyCheckbox id="type" layout="pageDirection"
-									value="#{searchBean.vehicleTypeSelections}">
-									<f:selectItems value="#{searchBean.selectedVehicleTypes}"
+									value="#{officeBean.vehicleTypeSelections}">
+									<f:selectItems value="#{officeBean.selectedVehicleTypes}"
 										var="type" itemLabel="#{type}" itemValue="#{type}" />
 								</p:selectManyCheckbox>
 							</div>
@@ -146,8 +140,8 @@
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
 								<p:selectManyCheckbox id="geartype" layout="pageDirection"
-									value="#{searchBean.gearTypeSelections}">
-									<f:selectItems value="#{searchBean.selectedGearTypes}"
+									value="#{officeBean.gearTypeSelections}">
+									<f:selectItems value="#{officeBean.selectedGearTypes}"
 										var="type" itemLabel="#{type}" itemValue="#{type}" />
 								</p:selectManyCheckbox>
 							</div>
@@ -161,8 +155,8 @@
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
 								<p:selectManyCheckbox id="fueltype" layout="pageDirection"
-									value="#{searchBean.fuelTypeSelections}">
-									<f:selectItems value="#{searchBean.selectedFuelTypes}"
+									value="#{officeBean.fuelTypeSelections}">
+									<f:selectItems value="#{officeBean.selectedFuelTypes}"
 										var="type" itemLabel="#{type}" itemValue="#{type}" />
 								</p:selectManyCheckbox>
 							</div>
@@ -174,7 +168,7 @@
 					<div class="col-9"></div>
 					<div class="col-3">
 						<p:commandButton value="Search" id="filter"
-							action="#{searchBean.filter}" update="vehicleList, vehicleCount"
+							action="#{officeBean.filter}" update="OfficeList, officeCount"
 							style="margin-left:-10%;" />
 					</div>
 				</div>
@@ -183,22 +177,23 @@
 
 			<div class="col-6 w3-container w3-card-4 w3-light-grey"
 				style="margin-left: 1%; margin-top: 2%;">
-				<h:panelGroup id="vehicleList">
-					<p:repeat value="#{searchBean.selectedVehicles}" var="vehicle">
+				<h:panelGroup id="OfficeList">
+					<p:repeat value="#{officeBean.selectedOffices}" var="Office">
 						<div class="row" style="border-bottom-style: groove;">
 							<div class="col-6">
 								<div style="margin-left: 3%;">
-									<h4 style="font-weight: bold;">#{vehicle.name}</h4>
-
+									<h4 style="font-weight: bold;">#{Office.name}</h4>
+									
 									<div style="margin-left: 5%">
-										<h5>Brand: #{vehicle.brand}</h5>
-										<h5>Type: #{vehicle.type}</h5>
-										<h5>Fuel: #{vehicle.fuelType}</h5>
-										<h5>Gear: #{vehicle.gearType}</h5>
-										<h5>Luggage: #{vehicle.avaliableLuggage}</h5>
+										<h5>#{Office.name}</h5>
+										<h5>Address: #{Office.address}</h5>
+										<h5>#{Office.phone}</h5>
+										
+										<h5>: #{Office.email}</h5>
+										
 									</div>
 
-									<h5>Gear: #{vehicle.gearType}</h5>
+									<h5>#{Office.workingDays} #{Office.workingHours}</h5>
 
 								</div>
 							</div>
