@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 import com.jsf.authentication.LoginManager;
 import com.jsf.database.DatabaseManager;
 import com.jsf.entity.Office;
+import com.jsf.search.SearchBeanStatic;
 
 @ManagedBean
 @ViewScoped
@@ -75,6 +76,27 @@ public class MainBean implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+	
+	public void searchAction(String receivingOffice, String returningOffice, Date returningDate, Date receivingDate) {
+		SearchBeanStatic.setReceivingOffice(receivingOffice);
+		SearchBeanStatic.setReturningOffice(returningOffice);
+		SearchBeanStatic.setReturningDate(returningDate);
+		SearchBeanStatic.setReceivingDate(receivingDate);
+		directToSearchPage();
+	}
+	
+	public void directToSearchPage() {
+		ExternalContext ec = FacesContext.getCurrentInstance()
+		        .getExternalContext();
+		try {
+		    ec.redirect(ec.getRequestContextPath()
+		            + "/search.xhtml");
+		    return;
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
 	}
 
 	public void initNavigationBarName() {

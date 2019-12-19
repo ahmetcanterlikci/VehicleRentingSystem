@@ -165,7 +165,7 @@
 					style="margin-bottom:7%; width:250px;" showTime="true" value ="#{mainBean.returningDate}" />
 				<br />
 				<p:commandButton value="Search"
-					style="font-size:15px; width:100px; height:30px; margin-bottom: 5%;" action="#{searchBean.searchAction(mainBean.receivingOfficeName, mainBean.returningOfficeName, mainBean.returningDate, mainBean.receivingDate)}" >
+					style="font-size:15px; width:100px; height:30px; margin-bottom: 5%;" action="#{mainBean.searchAction(mainBean.receivingOfficeName, mainBean.returningOfficeName, mainBean.returningDate, mainBean.receivingDate)}" >
 					</p:commandButton>
 			</div>
 

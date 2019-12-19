@@ -49,6 +49,12 @@ public class SearchBean implements Serializable{
 	private int vehicleCount;
 	private Connection connection;
 	
+	private String receivingOffice;
+	private String returningOffice;
+	private Date receivingDate;
+	private Date returningDate;
+	private boolean staticCheck;
+	
 	@PostConstruct
 	public void init() {
 		selectedNames = new ArrayList<String>(); // prepare the attributes
@@ -67,11 +73,24 @@ public class SearchBean implements Serializable{
 		DatabaseManager.initiliaze(); // init Database
 		connection = DatabaseManager.getConnection();
 		
+		receiveStaticData(); // check the static data
+		
 		receiveVehicles(); // prepare the vehicles
 		
 		vehicleCount = vehicles.size();
 		selectedVehicles = vehicles;
 		
+	}
+	
+	public void receiveStaticData() {
+		this.receivingOffice=SearchBeanStatic.getReceivingOffice();
+		this.returningOffice=SearchBeanStatic.getReturningOffice();
+		this.receivingDate = SearchBeanStatic.getReceivingDate();
+		this.returningDate = SearchBeanStatic.getReturningDate();
+		
+		if(receivingDate!=null && receivingOffice!=null && returningDate !=null && receivingDate!=null) {
+			this.staticCheck = true;
+		}
 	}
 	
 	public void receiveVehicles() { // load the vehicles from database
@@ -115,46 +134,35 @@ public class SearchBean implements Serializable{
 				e.printStackTrace();
 			}
 		
+		if(this.staticCheck) {
+			searchAction();
+		}
+		
 		setFilters();
 		
 	}
 
-	public void searchAction(String receivingOffice, String returningOffice, Date returningDateNew, Date receivingDateNew) {
+	public void searchAction() {
 		
 	    ArrayList<Vehicle> newvehiclesArrayList = new ArrayList<Vehicle>();
 	    
-	    for (int i = 0; i < selectedVehicles.size(); i++) {
-	    	Vehicle vehicle = selectedVehicles.get(i);
+	    for (int i = 0; i < vehicles.size(); i++) {
+	    	Vehicle vehicle = vehicles.get(i);
 			if(vehicle.getRentingStatus().equalsIgnoreCase("Not Rented")) {
 				if(vehicle.getCurrentOfficeName().equals(receivingOffice)) {
 					newvehiclesArrayList.add(vehicle);
 				}
 			}else {
-				if(vehicle.getRentEnd().before(receivingDateNew) && vehicle.getRentStart().after(returningDateNew) && 
+				if(vehicle.getRentEnd().before(receivingDate) && vehicle.getRentStart().after(returningDate) && 
 						vehicle.getCurrentOfficeName().equals(receivingOffice)) {
 					newvehiclesArrayList.add(vehicle);
 				}
 			}
 		}
 	    
-	    selectedVehicles = newvehiclesArrayList;
-	    directToSearchPage();
+	    vehicles = newvehiclesArrayList;
 	    
 	}
-	
-	public void directToSearchPage() {
-		ExternalContext ec = FacesContext.getCurrentInstance()
-		        .getExternalContext();
-		try {
-		    ec.redirect(ec.getRequestContextPath()
-		            + "/search.xhtml");
-		    return;
-		} catch (IOException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}
-	}
-	
 	
 	public void filter() { // filter action
 		System.out.println("filter");
