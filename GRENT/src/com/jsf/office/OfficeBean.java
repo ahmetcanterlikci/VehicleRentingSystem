@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -18,18 +17,19 @@ import com.jsf.entity.Office;
 
 @ManagedBean
 @ViewScoped
-public class officeBean implements Serializable{
+public class OfficeBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private ArrayList<String> nameSelections;
 	private ArrayList<String> classSelections;
 	private ArrayList<String> vehicleTypeSelections;
-	private ArrayList<String> gearTypeSelections;
+	private ArrayList<String> gearTypeSelections; 
 	private ArrayList<String> fuelTypeSelections;
 	
 	private String selectedPriceRange;
 	private ArrayList<String> selectedNames;
 	private ArrayList<String> selectedCities;
-	private ArrayList<String> selectedVehicleTypes;
+	private ArrayList<String> countries;
+	private ArrayList<String> country;
 	private ArrayList<String> selectedGearTypes;
 	private ArrayList<String> selectedFuelTypes;
 	private ArrayList<Office> Offices;
@@ -38,24 +38,25 @@ public class officeBean implements Serializable{
 	private Connection connection;
 	
 	@PostConstruct
-	public void init() throws SQLException {
+	public void init() {
 		DatabaseManager.initiliaze();
 		connection = DatabaseManager.getConnection();
+		country= new ArrayList<String>();
 		selectedNames = new ArrayList<String>(); // prepare the attributes
 		selectedCities = new ArrayList<String>();
-		selectedVehicleTypes = new ArrayList<String>();
+		countries = new ArrayList<String>();
 		selectedGearTypes = new ArrayList<String>();
+	
 		selectedFuelTypes = new ArrayList<String>();
 		Offices = new ArrayList<Office>();
 		selectedOffices = Offices;
 		nameSelections = new ArrayList<String>(); 
+		
 		classSelections = new ArrayList<String>(); 
 		vehicleTypeSelections = new ArrayList<String>(); 
 		gearTypeSelections = new ArrayList<String>(); 
 		fuelTypeSelections = new ArrayList<String>(); 
-		
 		receiveOffices(); // prepare the vehicles
-		
 		officeCount = Offices.size();
 		
 		
@@ -81,13 +82,14 @@ public class officeBean implements Serializable{
 	        	String city = resultSet1.getString("city");
 	        	String country  = resultSet1.getString("country");
 	            Office office = new Office(name, isDeleted, email, address,phone, fax, workingDays, workingHours, city, country);
-	            //offices.add(office);
+	            Offices.add(office);
 	        }
-	        
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		
 	}
 	
 	public void filter() { // filter action
@@ -364,7 +366,6 @@ public class officeBean implements Serializable{
 		this.selectedNames = selectedNames;
 	}
 
-
 	public ArrayList<String> getSelectedCities() {
 		return selectedCities;
 	}
@@ -373,16 +374,20 @@ public class officeBean implements Serializable{
 		this.selectedCities = selectedCities;
 	}
 
-	public void setSelectedClasses(ArrayList<String> selectedClasses) {
-		this.selectedCities = selectedClasses;
+	public ArrayList<String> getCountries() {
+		return countries;
 	}
 
-	public ArrayList<String> getSelectedVehicleTypes() {
-		return selectedVehicleTypes;
+	public void setCountries(ArrayList<String> countries) {
+		this.countries = countries;
 	}
 
-	public void setSelectedVehicleTypes(ArrayList<String> selectedVehicleTypes) {
-		this.selectedVehicleTypes = selectedVehicleTypes;
+	public ArrayList<String> getCountry() {
+		return country;
+	}
+
+	public void setCountry(ArrayList<String> country) {
+		this.country = country;
 	}
 
 	public ArrayList<String> getSelectedGearTypes() {
@@ -425,10 +430,19 @@ public class officeBean implements Serializable{
 		this.officeCount = officeCount;
 	}
 
+	public Connection getConnection() {
+		return connection;
+	}
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+
 //getter setters
 
 }

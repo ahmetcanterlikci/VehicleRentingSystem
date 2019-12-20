@@ -76,18 +76,19 @@
 							<h6>#{officeBean.officeCount} offices are found.</h6>
 						</h:panelGroup>
 					</div>
-				</div>
+				</div> 
 
 				<div class="row" style="border-bottom-style: groove">
 					<div class="col-12">
 						<h5 style="font-weight: bold;">Country</h5>
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
-								<p:selectOneRadio id="priceRange" layout="pageDirection"
+								<p:selectManyCheckbox id="countries" layout="pageDirection"
 									value="#{officeBean.selectedCities}">
-									<f:selectItem itemLabel="Turkey" itemValue="Turkey"></f:selectItem>
-									<f:selectItem itemLabel="Germany" itemValue="Germany"></f:selectItem>
-								</p:selectOneRadio>
+									<p:repeat value="#{officeBean.countries}" var="country"> 
+									<f:selectItem itemLabel=Country itemValue=country></f:selectItem>
+									</p:repeat>
+								</p:selectManyCheckbox>
 							</div>
 						</div>
 					</div>
@@ -189,7 +190,7 @@
 										<h5>Address: #{Office.address}</h5>
 										<h5>#{Office.phone}</h5>
 										
-										<h5>: #{Office.email}</h5>
+										<h5>e-Mail: #{Office.email}</h5>
 										
 									</div>
 
