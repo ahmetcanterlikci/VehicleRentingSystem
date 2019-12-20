@@ -1,5 +1,6 @@
 package com.jsf.search;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +15,10 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.component.timeline.DefaultTimelineUpdater;
@@ -45,6 +49,12 @@ public class SearchBean implements Serializable{
 	private int vehicleCount;
 	private Connection connection;
 	
+	private String receivingOffice;
+	private String returningOffice;
+	private Date receivingDate;
+	private Date returningDate;
+	private boolean staticCheck;
+	
 	@PostConstruct
 	public void init() {
 		selectedNames = new ArrayList<String>(); // prepare the attributes
@@ -53,7 +63,6 @@ public class SearchBean implements Serializable{
 		selectedGearTypes = new ArrayList<String>();
 		selectedFuelTypes = new ArrayList<String>();
 		vehicles = new ArrayList<Vehicle>();
-		selectedVehicles = vehicles;
 		
 		nameSelections = new ArrayList<String>(); 
 		classSelections = new ArrayList<String>(); 
@@ -64,12 +73,24 @@ public class SearchBean implements Serializable{
 		DatabaseManager.initiliaze(); // init Database
 		connection = DatabaseManager.getConnection();
 		
+		receiveStaticData(); // check the static data
+		
 		receiveVehicles(); // prepare the vehicles
 		
 		vehicleCount = vehicles.size();
+		selectedVehicles = vehicles;
 		
+	}
+	
+	public void receiveStaticData() {
+		this.receivingOffice=SearchBeanStatic.getReceivingOffice();
+		this.returningOffice=SearchBeanStatic.getReturningOffice();
+		this.receivingDate = SearchBeanStatic.getReceivingDate();
+		this.returningDate = SearchBeanStatic.getReturningDate();
 		
-		
+		if(receivingDate!=null && receivingOffice!=null && returningDate !=null && receivingDate!=null) {
+			this.staticCheck = true;
+		}
 	}
 	
 	public void receiveVehicles() { // load the vehicles from database
@@ -91,7 +112,7 @@ public class SearchBean implements Serializable{
 	        	String type = resultSet1.getString("type");
 	        	String numberOfSeats = resultSet1.getString("numberOfSeats");
 	        	String avaliableLuggage = resultSet1.getString("avaliableLuggage");
-	            String minimumYearsOfLicense = resultSet1.getString("minmumYearsOfLicense");
+	            String minimumYearsOfLicense = resultSet1.getString("minimumYearsOfLicense");
 	        	String airbags = resultSet1.getString("airbags");
 	        	String airConditioning = resultSet1.getString("airConditioning");
 	        	String currentOfficeName = resultSet1.getString("currentOfficeName");
@@ -113,47 +134,33 @@ public class SearchBean implements Serializable{
 				e.printStackTrace();
 			}
 		
+		if(this.staticCheck) {
+			searchAction();
+		}
+		
 		setFilters();
 		
 	}
 
 	public void searchAction() {
 		
-		try {
-			Map<String,String> params = 
-	                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-		    String receivingOffice = params.get("receivingOfficeParam");
-		    String returningOffice = params.get("returningOfficeParam");
-		    String returningDate = params.get("returningDateParam");
-		    String receivingDate = params.get("receivingDateParam");
-		    
-		    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-			Date receivingDateNew = formatter.parse(receivingDate);
-			Date returningDateNew = formatter.parse(returningDate);
-			
-			filter();
-		    
-		    ArrayList<Vehicle> newvehiclesArrayList = new ArrayList<Vehicle>();
-		    
-		    for (int i = 0; i < selectedVehicles.size(); i++) {
-		    	Vehicle vehicle = selectedVehicles.get(i);
-				if(vehicle.getRentingStatus().equals("Not Rented")) {
-					if(vehicle.getCurrentOfficeName().equals(receivingOffice)) {
-						newvehiclesArrayList.add(vehicle);
-					}
-				}else {
-					if(vehicle.getRentEnd().before(receivingDateNew) && vehicle.getRentStart().after(returningDateNew) && 
-							vehicle.getCurrentOfficeName().equals(receivingOffice)) {
-						newvehiclesArrayList.add(vehicle);
-					}
+	    ArrayList<Vehicle> newvehiclesArrayList = new ArrayList<Vehicle>();
+	    
+	    for (int i = 0; i < vehicles.size(); i++) {
+	    	Vehicle vehicle = vehicles.get(i);
+			if(vehicle.getRentingStatus().equalsIgnoreCase("Not Rented")) {
+				if(vehicle.getCurrentOfficeName().equals(receivingOffice)) {
+					newvehiclesArrayList.add(vehicle);
+				}
+			}else {
+				if(vehicle.getRentEnd().before(receivingDate) && vehicle.getRentStart().after(returningDate) && 
+						vehicle.getCurrentOfficeName().equals(receivingOffice)) {
+					newvehiclesArrayList.add(vehicle);
 				}
 			}
-		    
-		    selectedVehicles = newvehiclesArrayList;
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+	    
+	    vehicles = newvehiclesArrayList;
 	    
 	}
 	
