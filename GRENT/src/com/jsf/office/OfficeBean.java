@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
@@ -29,10 +28,19 @@ public class OfficeBean implements Serializable{
 	private ArrayList<String> selectedNames;
 	private ArrayList<String> selectedCities;
 	private ArrayList<String> countries;
-	private ArrayList<String> country;
+	private ArrayList<String> selectedcountry;
 	private ArrayList<String> selectedGearTypes;
+	private ArrayList<String> cities;
 	private ArrayList<String> selectedFuelTypes;
 	private ArrayList<Office> Offices;
+	public ArrayList<String> getCities() {
+		return cities;
+	}
+
+	public void setCities(ArrayList<String> cities) {
+		this.cities = cities;
+	}
+
 	private ArrayList<Office> selectedOffices;
 	private int officeCount;       
 	private Connection connection;
@@ -41,11 +49,12 @@ public class OfficeBean implements Serializable{
 	public void init() {
 		DatabaseManager.initiliaze();
 		connection = DatabaseManager.getConnection();
-		country= new ArrayList<String>();
+		selectedcountry= new ArrayList<String>();
+		countries = new ArrayList<String>();
 		selectedNames = new ArrayList<String>(); // prepare the attributes
 		selectedCities = new ArrayList<String>();
-		countries = new ArrayList<String>();
-		selectedGearTypes = new ArrayList<String>();
+		
+		cities = new ArrayList<String>();
 	
 		selectedFuelTypes = new ArrayList<String>();
 		Offices = new ArrayList<Office>();
@@ -57,6 +66,9 @@ public class OfficeBean implements Serializable{
 		gearTypeSelections = new ArrayList<String>(); 
 		fuelTypeSelections = new ArrayList<String>(); 
 		receiveOffices(); // prepare the vehicles
+		receiveCountries(); //select countries in that are in the database
+		receiveCities();
+		receiveNames();
 		officeCount = Offices.size();
 		
 		
@@ -67,8 +79,6 @@ public class OfficeBean implements Serializable{
 			PreparedStatement pstmt = connection.prepareStatement(
 				        "SELECT * FROM office ");
 	        ResultSet resultSet1 = pstmt.executeQuery();
-	        
-	        ResultSetMetaData rsMetaData = resultSet1.getMetaData();
 			resultSet1.beforeFirst();
 	        while (resultSet1.next()) {
 	        	String name = resultSet1.getString("name");
@@ -91,7 +101,54 @@ public class OfficeBean implements Serializable{
 			}
 		
 	}
-	
+	public void receiveCountries() {
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(
+			        "SELECT DISTINCT country FROM office");
+	    ResultSet resultSet1 = pstmt.executeQuery();
+	    
+	   
+		resultSet1.beforeFirst();
+	    while (resultSet1.next()) {
+	    	String countryname = resultSet1.getString("country");
+	    	countries.add(countryname);
+		}} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public void receiveCities() {
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(
+			        "SELECT DISTINCT city FROM office");
+	    ResultSet resultSet1 = pstmt.executeQuery();
+	    
+	  
+		resultSet1.beforeFirst();
+	    while (resultSet1.next()) {
+	    	String cityname = resultSet1.getString("city");
+	    	cities.add(cityname);
+		}} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public void receiveNames() {
+		try {
+			PreparedStatement pstmt = connection.prepareStatement(
+			        "SELECT DISTINCT name FROM office");
+	    ResultSet resultSet1 = pstmt.executeQuery();
+	    
+	  
+		resultSet1.beforeFirst();
+	    while (resultSet1.next()) {
+	    	String name = resultSet1.getString("name");
+	    	nameSelections.add(name);
+		}} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	public void filter() { // filter action
 		System.out.println("filter");
 		boolean c = checkForFilter();
@@ -142,9 +199,11 @@ public class OfficeBean implements Serializable{
 			}
 		}
 		
+		
 		officeCount = selectedOffices.size();
 		
 	}
+	
 	
 	public boolean checkPriceRange(String price) {
 		
@@ -382,12 +441,12 @@ public class OfficeBean implements Serializable{
 		this.countries = countries;
 	}
 
-	public ArrayList<String> getCountry() {
-		return country;
+	public ArrayList<String> getSelectedcountry() {
+		return selectedcountry;
 	}
 
-	public void setCountry(ArrayList<String> country) {
-		this.country = country;
+	public void setSelectedcountry(ArrayList<String> selectedcountry) {
+		this.selectedcountry = selectedcountry;
 	}
 
 	public ArrayList<String> getSelectedGearTypes() {
@@ -441,6 +500,8 @@ public class OfficeBean implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	
 
 
 //getter setters
