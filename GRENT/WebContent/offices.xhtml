@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -76,19 +75,35 @@
 							<h6>#{officeBean.officeCount} offices are found.</h6>
 						</h:panelGroup>
 					</div>
-				</div>
+				</div> 
 
 				<div class="row" style="border-bottom-style: groove">
 					<div class="col-12">
 						<h5 style="font-weight: bold;">Country</h5>
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
-								<p:selectOneRadio id="priceRange" layout="pageDirection"
-									value="#{officeBean.selectedCities}">
-									<f:selectItem itemLabel="Turkey" itemValue="Turkey"></f:selectItem>
-									<f:selectItem itemLabel="Germany" itemValue="Germany"></f:selectItem>
-								</p:selectOneRadio>
+								<p:selectManyCheckbox id="country" layout="pageDirection"
+									value="#{officeBean.selectedcountry}">
+									<f:selectItems value="#{officeBean.countries}" var="city"
+										itemLabel="#{country}" itemValue="#{country}" />
+								</p:selectManyCheckbox>
 							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" style="border-bottom-style: groove">
+					<div class="col-12">
+						<h5 style="font-weight: bold;">City</h5>
+						<div class="row" style="margin-top: -5%;">
+							<div class="col-12">
+								<p:selectManyCheckbox id="city" layout="pageDirection"
+									value="#{officeBean.selectedCities}">
+									<f:selectItems value="#{officeBean.cities}" var="city"
+										itemLabel="#{city}" itemValue="#{city}" />
+								</p:selectManyCheckbox>
+							</div>
+
 						</div>
 					</div>
 				</div>
@@ -98,72 +113,18 @@
 						<h5 style="font-weight: bold;">Name</h5>
 						<div class="row" style="margin-top: -5%;">
 							<div class="col-12">
-								<p:selectManyCheckbox id="name" layout="pageDirection"
-									value="#{officeBean.nameSelections}">
-									<f:selectItems value="#{officeBean.selectedNames}" var="name"
+									<p:selectManyCheckbox id="name" layout="pageDirection"
+									value="#{officeBean.selectedNames}">
+									<f:selectItems value="#{officeBean.nameSelections}" var="name"
 										itemLabel="#{name}" itemValue="#{name}" />
 								</p:selectManyCheckbox>
 							</div>
-
 						</div>
 					</div>
 				</div>
-
-				<div class="row" style="border-bottom-style: groove">
-					<div class="col-12">
-						<h5 style="font-weight: bold;">Class</h5>
-						<div class="row" style="margin-top: -5%;">
-							<div class="col-12">
-								
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row" style="border-bottom-style: groove">
-					<div class="col-12">
-						<h5 style="font-weight: bold;">Type</h5>
-						<div class="row" style="margin-top: -5%;">
-							<div class="col-12">
-								<p:selectManyCheckbox id="type" layout="pageDirection"
-									value="#{officeBean.vehicleTypeSelections}">
-									<f:selectItems value="#{officeBean.selectedVehicleTypes}"
-										var="type" itemLabel="#{type}" itemValue="#{type}" />
-								</p:selectManyCheckbox>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				<div class="row" style="border-bottom-style: groove">
-					<div class="col-12">
-						<h5 style="font-weight: bold;">Gear Type</h5>
-						<div class="row" style="margin-top: -5%;">
-							<div class="col-12">
-								<p:selectManyCheckbox id="geartype" layout="pageDirection"
-									value="#{officeBean.gearTypeSelections}">
-									<f:selectItems value="#{officeBean.selectedGearTypes}"
-										var="type" itemLabel="#{type}" itemValue="#{type}" />
-								</p:selectManyCheckbox>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12">
-						<h5 style="font-weight: bold;">Fuel Type</h5>
-						<div class="row" style="margin-top: -5%;">
-							<div class="col-12">
-								<p:selectManyCheckbox id="fueltype" layout="pageDirection"
-									value="#{officeBean.fuelTypeSelections}">
-									<f:selectItems value="#{officeBean.selectedFuelTypes}"
-										var="type" itemLabel="#{type}" itemValue="#{type}" />
-								</p:selectManyCheckbox>
-							</div>
-
-						</div>
-					</div>
-				</div>
+				
+		
+		
 				<div class="row">
 					<div class="col-9"></div>
 					<div class="col-3">
@@ -189,7 +150,7 @@
 										<h5>Address: #{Office.address}</h5>
 										<h5>#{Office.phone}</h5>
 										
-										<h5>: #{Office.email}</h5>
+										<h5>e-Mail: #{Office.email}</h5>
 										
 									</div>
 
@@ -199,8 +160,8 @@
 							</div>
 							<div class="col-3"></div>
 							<div class="col-3">
-								<p:commandButton value="Rent" id="addToChart"
-									style="margin-left: 55%; font-size:20px;" />
+								<p:commandButton value="Manage" id="addToChart"
+									style="margin-left: 40%; font-size:18px;" />
 							</div>
 						</div>
 					</p:repeat>
