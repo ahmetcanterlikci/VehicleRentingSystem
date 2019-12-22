@@ -17,7 +17,6 @@ import com.jsf.entity.Office;
 public class OfficeBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<String> nameSelections;
-
 	private ArrayList<String> selectedNames;
 	private ArrayList<String> selectedCities;
 	private ArrayList<String> countries;
