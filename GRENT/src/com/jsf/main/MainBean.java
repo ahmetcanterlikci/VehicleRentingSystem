@@ -24,6 +24,9 @@ import com.jsf.database.DatabaseManager;
 import com.jsf.entity.Office;
 import com.jsf.search.SearchBeanStatic;
 
+/**
+ * Controller class of the homepage.
+ */
 @ManagedBean
 @ViewScoped
 public class MainBean implements Serializable {
@@ -36,6 +39,7 @@ public class MainBean implements Serializable {
 	private String returningOfficeName;
 	private Date receivingDate;
 	private Date returningDate;
+	private boolean loginControl;
 
 	@PostConstruct
 	public void init() {
@@ -43,12 +47,43 @@ public class MainBean implements Serializable {
 		this.navigationBarContents = new ArrayList<NavigationBarContent>();
 		initNavigationBarContents();
 		initNavigationBarName();
-		DatabaseManager.initiliaze();
-		connection = DatabaseManager.getConnection();
-		receiveOffices();
-
+		
+		if(isMainPage()) {
+			DatabaseManager.initiliaze();
+			connection = DatabaseManager.getConnection();
+			receiveOffices();
+		}
+		
+		loginControl();
 	}
 	
+	/**
+	 * Check whether user request is come from main page or not
+	 */
+	public boolean isMainPage() {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		String viewId = facesContext.getViewRoot().getViewId();
+		if(viewId.equals("/index.xhtml")) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Check whether user logged in.
+	 */
+	public void loginControl() {
+		if(LoginManager.isLoggedIn()){
+			this.loginControl = true;
+		}else {
+			this.loginControl = false;
+		}
+	}
+	
+	/**
+	 * Receive offices in the system
+	 */
 	public void receiveOffices() {
 		try {
 			PreparedStatement pstmt = connection.prepareStatement(
@@ -78,6 +113,13 @@ public class MainBean implements Serializable {
 			}
 	}
 	
+	/**
+	 * Store the search information entered from the user
+	 * @param returningDate returning date of the renting
+	 * @param receivingDate receiving date of the renting
+	 * @param returningOffice returning office of the renting
+	 * @param receivingOffice receiving office of the renting
+	 */
 	public void searchAction(String receivingOffice, String returningOffice, Date returningDate, Date receivingDate) {
 		SearchBeanStatic.setReceivingOffice(receivingOffice);
 		SearchBeanStatic.setReturningOffice(returningOffice);
@@ -86,6 +128,9 @@ public class MainBean implements Serializable {
 		directToSearchPage();
 	}
 	
+	/**
+	 * Direct user to the vehicle search page
+	 */
 	public void directToSearchPage() {
 		ExternalContext ec = FacesContext.getCurrentInstance()
 		        .getExternalContext();
@@ -99,6 +144,9 @@ public class MainBean implements Serializable {
 		}
 	}
 
+	/**
+	 * Initialize the name of the drop down menu in the navigation bar
+	 */
 	public void initNavigationBarName() {
 		boolean temp0 = LoginManager.isLoggedIn();
 		if (temp0 == true) {
@@ -106,7 +154,10 @@ public class MainBean implements Serializable {
 		} else
 			this.navigationBarName = "Login";
 	}
-
+	
+	/**
+	 * Initialize the contents of the drop down menu in the navigation bar
+	 */
 	public void initNavigationBarContents() {
 
 		if (LoginManager.isLoggedIn()) {
@@ -122,6 +173,9 @@ public class MainBean implements Serializable {
 		}
 	}
 	
+	/**
+	 * Action of the exit button. Logs out the user and directs to the given path from param.
+	 */
 	public void navigationAction() {
 		Map<String,String> params = 
                 FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -133,13 +187,19 @@ public class MainBean implements Serializable {
 	  directToPage(path);
 	}
 	
-
+	/**
+	 * Log out the user
+	 */
 	public void userExit() {
 		LoginManager.setLoggedIn(false);
 		LoginManager.setRole(null);
 		LoginManager.setUsername(null);
 	}
 	
+	/**
+	 * Direct to the given path.
+	 * @param path name of the page. Syntax: pathName.xhtml
+	 */
 	public void directToPage(String path) {
 		ExternalContext ec = FacesContext.getCurrentInstance()
 		        .getExternalContext();
@@ -195,7 +255,8 @@ public class MainBean implements Serializable {
 	public void setReturningDate(Date returningDate) {
 		this.returningDate = returningDate;
 	}
-	
-	
+	public boolean isLoginControl() {
+		return loginControl;
+	}
 
 }

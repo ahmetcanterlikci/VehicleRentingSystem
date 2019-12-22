@@ -1,33 +1,27 @@
 package com.jsf.search;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.component.timeline.DefaultTimelineUpdater;
 
+import com.jsf.authentication.LoginManager;
 import com.jsf.database.DatabaseManager;
-import com.jsf.entity.Office;
 import com.jsf.entity.Vehicle;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
+/**
+ * Controller class of the search page.
+ */
 @ManagedBean
 @ViewScoped
 public class SearchBean implements Serializable{
@@ -55,6 +49,9 @@ public class SearchBean implements Serializable{
 	private Date returningDate;
 	private boolean staticCheck;
 	
+	/**
+	 * Initialize method of the class.
+	 */
 	@PostConstruct
 	public void init() {
 		selectedNames = new ArrayList<String>(); // prepare the attributes
@@ -82,6 +79,56 @@ public class SearchBean implements Serializable{
 		
 	}
 	
+	/**
+	 * Add the selected vehicle to the chart of the corresponding RegisteredUser
+	 * @param v selected Vehicle object
+	 */
+	public void addToChart(Vehicle v) {
+		if(LoginManager.isLoggedIn()) {
+		try {	
+			PreparedStatement pstmt = connection.prepareStatement(
+				        "SELECT * FROM chart WHERE userUserName = ? ");
+			pstmt.setString(1, LoginManager.getUsername());
+	        ResultSet resultSet1 = pstmt.executeQuery();
+	        
+	        ResultSetMetaData rsMetaData = resultSet1.getMetaData();
+	        
+			resultSet1.beforeFirst();
+			if(resultSet1.next()) {
+				PreparedStatement pstmt2 = connection.prepareStatement(
+				        "UPDATE chart SET receivingOffice = ?, returningOffice = ?, receivingDate = ?, returningDate = ?,"
+				        + "dailyPrice = ?, vehicleName = ?, vehicleBrand = ?, vehiclePlateNumber = ? where userUserName = ? ");
+				pstmt2.setString(1, receivingOffice);
+				pstmt2.setString(2, returningOffice);
+				pstmt2.setDate(3, new java.sql.Date(receivingDate.getTime()));
+				pstmt2.setDate(4, new java.sql.Date(returningDate.getTime()));
+				pstmt2.setString(5, String.valueOf(v.getDailyprice()));
+				pstmt2.setString(6, v.getName());
+				pstmt2.setString(7, v.getBrand());
+				pstmt2.setString(8, v.getPlateNumber());
+				pstmt2.setString(9, LoginManager.getUsername());
+				pstmt2.executeUpdate();
+			}
+	        
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		notifyRent();
+		}
+	}
+	
+	/**
+	 * Displays rent notification popup
+	 */
+	public void notifyRent() {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Added to the chart succesfully.", null);
+        FacesContext.getCurrentInstance().addMessage("rentNotification", message);
+	}
+	
+	/**
+	 * Take the data which come from search panel on the homepage.
+	 */
 	public void receiveStaticData() {
 		this.receivingOffice=SearchBeanStatic.getReceivingOffice();
 		this.returningOffice=SearchBeanStatic.getReturningOffice();
@@ -93,6 +140,9 @@ public class SearchBean implements Serializable{
 		}
 	}
 	
+	/**
+	 * Receive all vehicles in the system from database
+	 */
 	public void receiveVehicles() { // load the vehicles from database
 		try {
 			PreparedStatement pstmt = connection.prepareStatement(
@@ -142,6 +192,9 @@ public class SearchBean implements Serializable{
 		
 	}
 
+	/**
+	 * Action of the search button on the homepage. Filters the cars second times according to given data.
+	 */
 	public void searchAction() {
 		
 	    ArrayList<Vehicle> newvehiclesArrayList = new ArrayList<Vehicle>();
@@ -164,6 +217,9 @@ public class SearchBean implements Serializable{
 	    
 	}
 	
+	/**
+	 * Action of the search button on the search page. Filters the cars corresponding to the given options.
+	 */
 	public void filter() { // filter action
 		System.out.println("filter");
 		boolean c = checkForFilter();
@@ -218,6 +274,10 @@ public class SearchBean implements Serializable{
 		
 	}
 	
+	/**
+	 * Check whether given price is in the selected price range.
+	 * @param price daily price of the vehicle
+	 */
 	public boolean checkPriceRange(String price) {
 		
 		int count = 0;
@@ -250,7 +310,10 @@ public class SearchBean implements Serializable{
 			return false;
 	}
 	
-	
+	/**
+	 * Check whether given vehicle class is in the selected vehicle classes.
+	 * @param vehicleClass vehicle class of the vehicle
+	 */
 	public boolean checkClasses(String vehicleClass) {
 		if(classSelections.contains(vehicleClass)) {
 			return true;
@@ -258,6 +321,10 @@ public class SearchBean implements Serializable{
 			return false;
 	}
 	
+	/**
+	 * Check whether given fuel type is in the selected fuel types.
+	 * @param fuelType fuel type of the vehicle
+	 */
 	public boolean checkFuelTypes(String fuelType) {
 		if(fuelTypeSelections.contains(fuelType)) {
 			return true;
@@ -265,6 +332,10 @@ public class SearchBean implements Serializable{
 			return false;
 	}
 	
+	/**
+	 * Check whether given vehicle name is in the selected vehicle names.
+	 * @param name name of the vehicle
+	 */
 	public boolean checkNames(String name) {
 		if(nameSelections.contains(name)) {
 			return true;
@@ -272,6 +343,10 @@ public class SearchBean implements Serializable{
 			return false;
 	}
 	
+	/**
+	 * Check whether given vehicle type is in the selected vehicle types.
+	 * @param vehicleType vehicle type of the vehicle
+	 */
 	public boolean checkVehicleTypes(String vehicleType) {
 		if(vehicleTypeSelections.contains(vehicleType)) {
 			return true;
@@ -279,6 +354,10 @@ public class SearchBean implements Serializable{
 			return false;
 	}
 	
+	/**
+	 * Check whether given gear type is in the selected gear types.
+	 * @param gearType gear type of the vehicle
+	 */
 	public boolean checkGearTypes(String gearType) {
 		if(gearTypeSelections.contains(gearType)) {
 			return true;
@@ -286,6 +365,9 @@ public class SearchBean implements Serializable{
 			return false;
 	}
 	
+	/**
+	 * Check whether user selected any filter options
+	 */
 	public boolean checkForFilter() {
 		if(selectedPriceRange != null) {
 			return true;
@@ -303,6 +385,9 @@ public class SearchBean implements Serializable{
 			return false; // there is no filter selection
 	}
 	
+	/**
+	 * Initialize the filters in the filter panel 
+	 */
 	public void setFilters() { // find the existing filter options for the filter panel
 		filterNames();
 		filterClasses();
@@ -311,6 +396,9 @@ public class SearchBean implements Serializable{
 	    filterVehicleTypes();
 	}
 
+	/**
+	 * Initialize the filter options for the vehicle name
+	 */
 	public void filterNames() {
 		for (int i = 0; i < vehicles.size(); i++) {
 			boolean c = false;
@@ -325,6 +413,9 @@ public class SearchBean implements Serializable{
 		}
 	}
 	
+	/**
+	 * Initialize the filter options for the vehicle type
+	 */
 	public void filterVehicleTypes() {
 		for (int i = 0; i < vehicles.size(); i++) {
 			boolean c = false;
@@ -339,6 +430,9 @@ public class SearchBean implements Serializable{
 		}
 	}
 	
+	/**
+	 * Initialize the filter options for the vehicle class
+	 */
 	public void filterClasses() {
 		for (int i = 0; i < vehicles.size(); i++) {
 			boolean c = false;
@@ -353,6 +447,9 @@ public class SearchBean implements Serializable{
 		}
 	}
 	
+	/**
+	 * Initialize the filter options for the gear type of the vehicle
+	 */
 	public void filterGearType() {
 		for (int i = 0; i < vehicles.size(); i++) {
 			boolean c = false;
@@ -367,6 +464,9 @@ public class SearchBean implements Serializable{
 		}
 	}
 	
+	/**
+	 * Initialize the filter options for the fuel type of the vehicle
+	 */
 	public void filterFuelType() {
 		for (int i = 0; i < vehicles.size(); i++) {
 			boolean c = false;

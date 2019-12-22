@@ -43,8 +43,8 @@
 				<div class="topnav">
 					<div class="row">
 						<div class="col-4">
-							<a class="active" href="index.xhtml">Home</a> <a href="#contact">Offices</a>
-							<a href="#contact">Vehicles</a> <a href="#about">About</a> <a
+							<a class="active" href="index.xhtml">Home</a> <a href="offices.xhtml">Offices</a>
+							<a href="vehicles.xhtml">Vehicles</a> <a href="#about">About</a> <a
 								href="#contact">Contact</a>
 						</div>
 						<div class="col-5"></div>
@@ -52,20 +52,28 @@
 							<div class="dropdown" style="margin-left: 10%;">
 								<button class="dropbtn" style="width: 150%;">#{mainBean.navigationBarName}</button>
 								<div class="dropdown-content">
-									<p:repeat value="#{mainBean.navigationBarContents}"
+									<p:repeat value="#{mainBean.navigationBarContents}" 
 										var="content">
 										<p:commandLink action="#{mainBean.navigationAction}">
 											<h:outputText value="#{content.name}" />
-											<f:param name="exit" value="#{content.name}" />
-											<f:param name="path" value="#{content.path}" />
+											<f:param name="exit" value="#{content.name}" />    
+											<f:param name="path" value="#{content.path}" />  
 										</p:commandLink>
 									</p:repeat>
 								</div>
 							</div>
-							<a href="chart.html" style="float: right; margin-top: -1%;">
+							<ui:fragment rendered = "#{mainBean.loginControl == true}"> 
+							<a href="chart.xhtml" style="float: right; margin-top: -1%;">
 								<i class="fas fa-shopping-cart"
 								style="font-size: 36px; float: right;"></i>
 							</a>
+							</ui:fragment >
+							<ui:fragment  rendered = "#{mainBean.loginControl == false}">
+							<a href="login.xhtml" style="float: right; margin-top: -1%;">
+								<i class="fas fa-shopping-cart"
+								style="font-size: 36px; float: right;"></i>
+							</a>
+							</ui:fragment >
 						</div>
 					</div>
 				</div>
@@ -73,7 +81,8 @@
 		</div>
 
 		<div class="row">
-			<div class="col-8 w3-container w3-card-4 w3-light-grey">
+		    <ui:fragment rendered ="#{chartBean.showChart == true}">
+			<div class="col-8 w3-container w3-card-4 w3-light-grey" style="width: 60%; margin-left: 1%;">
 				<div class="row">
 					<div class="col-12">
 						<h3 style="border-bottom-style: groove; font-weight: bold;">MY
@@ -82,24 +91,45 @@
 				</div>
 				<div class="row">
 					<div class="col-3">
-						<ui:panel rendered="#{chartBean.loggedIn == true }">
+						<ui:fragment rendered="#{chartBean.loggedIn == true }">
 							<h:graphicImage
 								url="/resources/images/#{chartBean.chart.vehiclePlateNumber}.jpg"
 								style="width: 280px;" class="w3-border w3-padding" /> 
-						</ui:panel>
+						</ui:fragment>
 					</div>
 					<div class="col-1"></div>
 					<div class="col-8">
 						<h5 style="font-weight: bold;">#{chartBean.chart.vehicleName}</h5>
-						<h6>#{chartBean.chart.dailyPrice}</h6>
+						<h6>$ #{chartBean.chart.dailyPrice} - daily</h6>
 						<h6>Receive: #{chartBean.chart.receivingDate} -
 							#{chartBean.chart.receivingOffice}</h6>
 						<h6>Return: #{chartBean.chart.returningDate} -
 							#{chartBean.chart.returningOffice}</h6>
+							<p:commandButton value="Cancel" id="chartDelete"
+									style="margin-top: 4%; margin-bottom: 6%; font-size:17px;" action="#{chartBean.deleteVehicle}"/>
 					</div>
 				</div>
 			</div>
-			<div class="col-4 w3-container w3-card-4 w3-light-grey">
+			</ui:fragment>
+			
+			<ui:fragment rendered ="#{chartBean.showChart == false}">
+			<div class="col-8 w3-container w3-card-4 w3-light-grey" style="width: 60%; margin-left: 1%;">
+				<div class="row">
+					<div class="col-12">
+						<h3 style="border-bottom-style: groove; font-weight: bold;">MY
+							CHART</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class ="col-12">
+					<h4>Nothing to show.</h4>
+					</div>
+				</div>
+			</div>
+			</ui:fragment>
+			
+			<ui:fragment rendered ="#{chartBean.showChart == true}">
+			<div class="col-4 w3-container w3-card-4 w3-light-grey" style="width: 30%; margin-left: 1%;">
 				<div class="row">
 					<div class="col-12">
 						<h3 style="border-bottom-style: groove; font-weight: bold;">SUMMARY</h3>
@@ -108,12 +138,32 @@
 				<div class="row">
 					<div class="col-12">
 						<h5>Time:</h5>
-						<h6>#{chartBean.totalDays}</h6>
+						<h6>#{chartBean.totalDays} days</h6>
+						<br />
 						<h5>Total Price:</h5>
-						<h6>#{chartBean.totalPrice}</h6>
+						<h6>$ #{chartBean.totalPrice}</h6>
+						<p:commandButton value="Go to Checkout" id="checkout"
+									style="margin-top: 5%; font-size:20px; float: right;" action ="beta.xhtml"/>
 					</div>
 				</div>
 			</div>
+			</ui:fragment>
+			
+			<ui:fragment rendered ="#{chartBean.showChart == false}">
+			<div class="col-4 w3-container w3-card-4 w3-light-grey" style="width: 30%; margin-left: 1%;">
+				<div class="row">
+					<div class="col-12">
+						<h3 style="border-bottom-style: groove; font-weight: bold;">SUMMARY</h3>
+					</div>
+				</div> 
+				<div class="row">
+					<div class="col-12">
+						<h4>Nothing to show.</h4>
+					</div>
+				</div>
+			</div>
+			</ui:fragment>
+			
 		</div>
 
 		<div class="row">

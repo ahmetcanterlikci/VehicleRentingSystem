@@ -12,33 +12,27 @@ import javax.faces.bean.ViewScoped;
 import com.jsf.database.DatabaseManager;
 import com.jsf.entity.Office;
 
+/**
+ * Controller of the Office object.
+ */
 @ManagedBean
 @ViewScoped
 public class OfficeBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<String> nameSelections;
-
 	private ArrayList<String> selectedNames;
 	private ArrayList<String> selectedCities;
 	private ArrayList<String> countries;
 	private ArrayList<String> selectedcountry;
-
 	private ArrayList<String> cities;
-
 	private ArrayList<Office> Offices;
-
-	public ArrayList<String> getCities() {
-		return cities;
-	}
-
-	public void setCities(ArrayList<String> cities) {
-		this.cities = cities;
-	}
-
 	private ArrayList<Office> selectedOffices;
 	private int officeCount;
 	private Connection connection;
 
+	/**
+	 * Initialize method of the class
+	 */
 	@PostConstruct
 	public void init() {
 		DatabaseManager.initiliaze();
@@ -60,9 +54,11 @@ public class OfficeBean implements Serializable {
 		receiveNames();
 		officeCount = Offices.size();
 		selectedOffices = Offices;
-
 	}
-
+	
+	/**
+	 * Receive all offices from database
+	 */
 	public void receiveOffices() {
 		try {
 			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM office ");
@@ -91,6 +87,9 @@ public class OfficeBean implements Serializable {
 
 	}
 
+	/**
+	 * get the distinct countries to use as a filter parameter
+	 */
 	public void receiveCountries() {
 		try {
 			PreparedStatement pstmt = connection.prepareStatement("SELECT DISTINCT country FROM office");
@@ -107,6 +106,9 @@ public class OfficeBean implements Serializable {
 
 	}
 
+	/**
+	 * get the distinct cities to use as a filter parameter
+	 */
 	public void receiveCities() {
 		try {
 			PreparedStatement pstmt = connection.prepareStatement("SELECT DISTINCT city FROM office");
@@ -123,6 +125,9 @@ public class OfficeBean implements Serializable {
 
 	}
 
+	/**
+	 * get the distinct office names to use as a filter parameter
+	 */
 	public void receiveNames() {
 		try {
 			PreparedStatement pstmt = connection.prepareStatement("SELECT DISTINCT name FROM office");
@@ -139,6 +144,9 @@ public class OfficeBean implements Serializable {
 
 	}
 
+	/**
+	 * Action of the Search button in the search page. Filters the selectedOffices ArrayList.
+	 */
 	public void filter() { // filter action
 		System.out.println("filter");
 		boolean c = checkForFilter();
@@ -179,6 +187,10 @@ public class OfficeBean implements Serializable {
 
 	}
 
+	/**
+	 * check whether given city is in the selected cities of the user
+	 * @param OfficeCity city field of a Office object.
+	 */
 	public boolean checkCities(String OfficeCity) {
 		if (selectedCities.contains(OfficeCity)) {
 			return true;
@@ -186,6 +198,10 @@ public class OfficeBean implements Serializable {
 			return false;
 	}
 
+	/**
+	 * check whether given office name is in the selected office names of the user
+	 * @param name name field of a Office object.
+	 */
 	public boolean checkname(String name) {
 		if (selectedNames.contains(name)) {
 			return true;
@@ -193,6 +209,10 @@ public class OfficeBean implements Serializable {
 			return false;
 	}
 
+	/**
+	 * check whether given country is in the selected countries of the user
+	 * @param country country field of a Office object.
+	 */
 	public boolean checkCountry(String country) {
 		if (selectedcountry.contains(country)) {
 			return true;
@@ -200,6 +220,9 @@ public class OfficeBean implements Serializable {
 			return false;
 	}
 
+	/**
+	 * check whether user selected any filter options
+	 */
 	public boolean checkForFilter() {
 
 		if (!selectedCities.isEmpty()) {
@@ -212,6 +235,15 @@ public class OfficeBean implements Serializable {
 			return false; // there is no filter selection
 	}
 
+
+	public ArrayList<String> getCities() {
+		return cities;
+	}
+
+	public void setCities(ArrayList<String> cities) {
+		this.cities = cities;
+	}
+	
 	public ArrayList<String> getNameSelections() {
 		return nameSelections;
 	}
@@ -288,6 +320,5 @@ public class OfficeBean implements Serializable {
 		return serialVersionUID;
 	}
 
-//getter setters
-
 }
+

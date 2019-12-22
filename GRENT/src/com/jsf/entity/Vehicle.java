@@ -2,6 +2,9 @@ package com.jsf.entity;
 
 import java.util.Date;
 
+/**
+ * Entity class of the Vehicle Object
+ */
 public class Vehicle {
 	private String plateNumber;
 	private String physicalStatus;
@@ -27,6 +30,20 @@ public class Vehicle {
 
 	}
 
+	/**
+	 * @param plateNumber plate number of the car
+	 * @param physicalStatus good or out of service
+	 * @param rentingStatus Rented or Not Rented
+	 * @param dailyprice daily price of the car for renting
+	 * @param vehicleClass Economic, Medium or Luxury
+	 * @param type type of the car: Hatchback, Sedan, SUV, Truck, Sport and so on
+	 * @param avaliableLuggage avaliable luggage in kg
+	 * @param minimumYearsOfLicense minimum years of license which a driver must be have to drive this car
+	 * @param airConditioning yes or no
+	 * @param airbags yes or no
+	 * @param currentOfficeName the office name which that car present currently
+	 * @param modelNumber a special model number for the car
+	 */
 	public Vehicle(String plateNumber, String physicalStatus, String rentingStatus, int dailyprice,
 			String vehicleClass, String gearType, String fuelType, String type, String numberOfSeats,
 			String avaliableLuggage, String minimumYearsOfLicense, String airbags, String airConditioning,

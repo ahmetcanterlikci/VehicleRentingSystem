@@ -2,6 +2,9 @@ package com.jsf.search;
 
 import java.util.Date;
 
+/**
+ * Storage class for the Search bean. Stores the data which comes from search panel on the homepage if requested.
+ */
 public abstract class SearchBeanStatic {
 	private static String receivingOffice;
 	private static String returningOffice;

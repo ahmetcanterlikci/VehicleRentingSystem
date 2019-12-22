@@ -1,5 +1,8 @@
 package com.jsf.entity;
 
+/**
+ * Entity class of Office object
+ */
 public class Office {
 	private String name;
 	private String isDeleted;
@@ -12,6 +15,14 @@ public class Office {
 	private String city;
 	private String country;
 	
+	/**
+	 * @param name office name
+	 * @param isDeleted is deleted in the database or not
+	 * @param email email of the office
+	 * @param address address of the office
+	 * @param workingDays working days of the office. Syntax: Day-Day
+	 * @param workingHours working hours of the office. Syntax: Hour.Minute-Hour.Minute
+	 */
 	public Office(String name, String isDeleted, String email, String address, String phone, String fax,
 			String workingDays, String workingHours, String city, String country) {
 		super();

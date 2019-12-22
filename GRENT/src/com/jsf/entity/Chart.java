@@ -2,6 +2,9 @@ package com.jsf.entity;
 
 import java.util.Date;
 
+/**
+ * Entity class of the Chart object
+ */
 public class Chart {
 
     private String userUserName;
@@ -24,6 +27,16 @@ public class Chart {
 
     }
 
+    /**
+	 * @param userUserName username of the corresponding user
+	 * @param returningDate returning date of the renting
+	 * @param receivingDate receiving date of the renting
+	 * @param returningOffice returning office of the renting
+	 * @param receivingOffice receiving office of the renting
+	 * @param dailyPrice daily price of the selected car to rent
+	 * @param vehiclePlateNumber plate number of the selected car to rent
+	 * @param vehicleName name of the selected car to rent
+	 */
     public Chart(String userUserName, Date returningDate, Date receivingDate, String returningOffice, String receivingOffice,
             String userName, String userSurname, String userAddress, String userPhone, String totalPrice, String vehicleName,
             String vehicleBrand, String vehiclePlateNumber, String discountId, String dailyPrice) {

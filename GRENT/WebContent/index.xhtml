@@ -98,10 +98,12 @@
 			<div class="col-7"></div>
 
 			<div class="col-2" style="margin-top: 1%;">
-				<i class="fab fa-facebook"
-					style="font-size: 30px; margin-right: 5%; margin-left: 15%"></i> <i
-					class="fab fa-twitter" style="font-size: 30px; margin-right: 5%"></i>
-				<i class="fab fa-instagram" style="font-size: 30px;"></i>
+				<a href="beta.xhtml"> <i class="fab fa-facebook"
+					style="font-size: 30px; margin-right: 5%; margin-left: 15%"></i></a> <a
+					href="beta.xhtml"> <i class="fab fa-twitter"
+					style="font-size: 30px; margin-right: 5%"></i></a> <a href="beta.xhtml">
+					<i class="fab fa-instagram" style="font-size: 30px;"></i>
+				</a>
 			</div>
 
 		</div>
@@ -112,29 +114,37 @@
 				<div class="topnav">
 					<div class="row">
 						<div class="col-4">
-							<a class="active" href="index.xhtml">Home</a> <a href="#contact">Offices</a>
-							<a href="#contact">Vehicles</a> <a href="#about">About</a> <a
-								href="#contact">Contact</a>
+							<a class="active" href="index.xhtml">Home</a> <a
+								href="offices.xhtml">Offices</a> <a href="vehicles.xhtml">Vehicles</a>
+							<a href="beta.xhtml">About</a> <a href="beta.xhtml">Contact</a>
 						</div>
 						<div class="col-5"></div>
 						<div class="col-3">
 							<div class="dropdown" style="margin-left: 10%;">
 								<button class="dropbtn" style="width: 150%;">#{mainBean.navigationBarName}</button>
 								<div class="dropdown-content">
-									<p:repeat value="#{mainBean.navigationBarContents}" 
+									<p:repeat value="#{mainBean.navigationBarContents}"
 										var="content">
 										<p:commandLink action="#{mainBean.navigationAction}">
 											<h:outputText value="#{content.name}" />
-											<f:param name="exit" value="#{content.name}" />    
-											<f:param name="path" value="#{content.path}" />  
+											<f:param name="exit" value="#{content.name}" />
+											<f:param name="path" value="#{content.path}" />
 										</p:commandLink>
 									</p:repeat>
 								</div>
 							</div>
-							<a href="chart.html" style="float: right; margin-top: -1%;">
-								<i class="fas fa-shopping-cart"
-								style="font-size: 36px; float: right;"></i>
-							</a>
+							<ui:fragment rendered="#{mainBean.loginControl == true}">
+								<a href="chart.xhtml" style="float: right; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
+							<ui:fragment rendered="#{mainBean.loginControl == false}">
+								<a href="login.xhtml" style="float: right; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
 						</div>
 					</div>
 				</div>
@@ -145,28 +155,34 @@
 			<div class="col-3 w3-container w3-card-4 w3-light-grey"
 				style="display: inline-block; margin-left: 1%; margin-top: 0.75%;">
 				<h5>Receiving Office</h5>
-				<p:selectOneMenu id="receivingOffice" style="width:250px;" value ="#{mainBean.receivingOfficeName}">
+				<p:selectOneMenu id="receivingOffice" style="width:250px;"
+					value="#{mainBean.receivingOfficeName}">
 					<!-- value="#{dropdownView.country}"  -->
-					<f:selectItems value ="#{mainBean.offices}" var ="office" itemLabel="#{office.name}" itemValue='#{office.name}'/>
+					<f:selectItems value="#{mainBean.offices}" var="office"
+						itemLabel="#{office.name}" itemValue='#{office.name}' />
 					<!-- value="#{dropdownView.country}"  -->
 				</p:selectOneMenu>
 				<h5>Returning Office</h5>
-				<p:selectOneMenu id="returningOffice" style="width:250px;" value ="#{mainBean.returningOfficeName}">
+				<p:selectOneMenu id="returningOffice" style="width:250px;"
+					value="#{mainBean.returningOfficeName}">
 					<!-- value="#{dropdownView.country}"  -->
-					<f:selectItems value ="#{mainBean.offices}" var ="office" itemLabel="#{office.name}" itemValue='#{office.name}'/>
+					<f:selectItems value="#{mainBean.offices}" var="office"
+						itemLabel="#{office.name}" itemValue='#{office.name}' />
 					<!-- value="#{dropdownView.country}"  -->
 				</p:selectOneMenu>
 				<h5>Receiving Date</h5>
 				<p:datePicker id="receiveDate" showIcon="true" showTime="true"
-					style="width:250px;" value ="#{mainBean.receivingDate}"/>
+					style="width:250px;" value="#{mainBean.receivingDate}" />
 				<!-- value="#{dropdownView.country}"  -->
 				<h5>Returning Date</h5>
 				<p:datePicker id="returnDate" showIcon="true"
-					style="margin-bottom:7%; width:250px;" showTime="true" value ="#{mainBean.returningDate}" />
+					style="margin-bottom:7%; width:250px;" showTime="true"
+					value="#{mainBean.returningDate}" />
 				<br />
 				<p:commandButton value="Search"
-					style="font-size:15px; width:100px; height:30px; margin-bottom: 5%;" action="#{mainBean.searchAction(mainBean.receivingOfficeName, mainBean.returningOfficeName, mainBean.returningDate, mainBean.receivingDate)}" >
-					</p:commandButton>
+					style="font-size:15px; width:100px; height:30px; margin-bottom: 5%;"
+					action="#{mainBean.searchAction(mainBean.receivingOfficeName, mainBean.returningOfficeName, mainBean.returningDate, mainBean.receivingDate)}">
+				</p:commandButton>
 			</div>
 
 			<div class="col-8 w3-container w3-card-4 w3-light-grey"

@@ -18,7 +18,9 @@ import javax.faces.context.FacesContext;
 
 import com.jsf.database.DatabaseManager;
 
-
+/**
+ * Controller of the Login page.
+ */
 @ManagedBean
 @ViewScoped
 public class LoginBean implements Serializable{
@@ -28,6 +30,9 @@ public class LoginBean implements Serializable{
 	private String warningMessage;
 	private Connection connection;
 
+	/**
+	 * Initialize method of the class
+	 */
 	@PostConstruct
 	public void init() {
 		DatabaseManager.initiliaze();
@@ -50,6 +55,9 @@ public class LoginBean implements Serializable{
 		this.warningMessage = warningMessage;
 	}
 	
+	/**
+	 * Checks whether given user information in the login page is valid.
+	 */
 	public void validateUser() {
 		if(this.password!=null && !this.password.equals("")) {
 			try {
@@ -100,12 +108,21 @@ public class LoginBean implements Serializable{
 		}
 	}
 	
+	/**
+	 * Logs in the user to the system.
+	 * @param username username of the user
+	 * @param role role of the user
+	 */
 	public void updateLoginManager(String username, String role) {
 		LoginManager.setUsername(username);
 		LoginManager.setRole(role);
 		LoginManager.setLoggedIn(true);
 	}
 	
+	
+	/**
+	 * Directs the user to the homepage.
+	 */
 	public void directToHomePage() {
 		ExternalContext ec = FacesContext.getCurrentInstance()
 		        .getExternalContext();
@@ -118,6 +135,11 @@ public class LoginBean implements Serializable{
 		}
 	}
 	
+	/**
+	 * Check whether given ResultSet is includes any row.
+	 * @return true if includes any row, else false
+	 * @param resultSet java.sql.ResultSet object from validateUser()
+	 */
 	public boolean checkDB(ResultSet resultSet) {
 		try {
 			ResultSetMetaData rsMetaData = resultSet.getMetaData();

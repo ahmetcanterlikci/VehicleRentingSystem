@@ -42,8 +42,8 @@
 				<div class="topnav">
 					<div class="row">
 						<div class="col-4">
-							<a class="active" href="index.xhtml">Home</a> <a href="#contact">Offices</a>
-							<a href="#contact">Vehicles</a> <a href="#about">About</a> <a
+							<a class="active" href="index.xhtml">Home</a> <a href="offices.xhtml">Offices</a>
+							<a href="vehicles.xhtml">Vehicles</a> <a href="#about">About</a> <a
 								href="#contact">Contact</a>
 						</div>
 						<div class="col-5"></div>
@@ -61,10 +61,18 @@
 									</p:repeat>
 								</div>
 							</div>
-							<a href="chart.html" style="float: right; margin-top: -1%;">
+							<ui:fragment rendered = "#{mainBean.loginControl == true}"> 
+							<a href="chart.xhtml" style="float: right; margin-top: -1%;">
 								<i class="fas fa-shopping-cart"
 								style="font-size: 36px; float: right;"></i>
 							</a>
+							</ui:fragment >
+							<ui:fragment  rendered = "#{mainBean.loginControl == false}">
+							<a href="login.xhtml" style="float: right; margin-top: -1%;">
+								<i class="fas fa-shopping-cart"
+								style="font-size: 36px; float: right;"></i>
+							</a>
+							</ui:fragment >
 						</div>
 					</div>
 				</div>

@@ -1,0 +1,131 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>GRENT - HOME</title>
+	<script src="https://kit.fontawesome.com/f4dcd45d8c.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster"/>
+	
+<style>
+.w3-lobster {
+  font-family: "Lobster", serif;
+}
+</style>
+
+</h:head>
+<h:body>
+
+	<h:outputStylesheet libray="default" name="css/main.css" />
+	<h:outputStylesheet libray="default" name="css/w3.css" />
+	<h:outputScript library="js" name="main.js" />
+	
+
+
+	<h:form>
+
+		<div class="row">
+			<div class="col-3">
+				<div class="header">
+					<h1 style="font-weight: bold; margin-bottom: -5%; margin-top: -4%;">GRENT</h1>
+				</div>
+			</div>
+
+			<div class="col-7"></div>
+
+			<div class="col-2" style="margin-top: 1%;">
+				<i class="fab fa-facebook"
+					style="font-size: 30px; margin-right: 5%; margin-left: 15%"></i> <i
+					class="fab fa-twitter" style="font-size: 30px; margin-right: 5%"></i>
+				<i class="fab fa-instagram" style="font-size: 30px;"></i>
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+
+				<div class="topnav">
+					<div class="row">
+						<div class="col-4">
+							<a class="active" href="index.xhtml">Home</a> <a
+								href="offices.xhtml">Offices</a> <a href="vehicles.xhtml">Vehicles</a>
+							<a href="#about">About</a> <a href="#contact">Contact</a>
+						</div>
+						<div class="col-5"></div>
+						<div class="col-3">
+							<div class="dropdown" style="margin-left: 10%;">
+								<button class="dropbtn" style="width: 150%;">#{mainBean.navigationBarName}</button>
+								<div class="dropdown-content">
+									<p:repeat value="#{mainBean.navigationBarContents}"
+										var="content">
+										<p:commandLink action="#{mainBean.navigationAction}">
+											<h:outputText value="#{content.name}" />
+											<f:param name="exit" value="#{content.name}" />
+											<f:param name="path" value="#{content.path}" />
+										</p:commandLink>
+									</p:repeat>
+								</div>
+							</div>
+							<ui:fragment rendered="#{mainBean.loginControl == true}">
+								<a href="chart.xhtml" style="float: right; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
+							<ui:fragment rendered="#{mainBean.loginControl == false}">
+								<a href="login.xhtml" style="float: right; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-3"></div>
+			<div class="col-6">
+				<h2 class ="w3-container w3-lobster w3-xxlarge" style="margin-left: 25%;">Sorry for the mess!</h2>
+				<h:graphicImage url="/resources/images/beta2.png" style = "width: 400px; margin-left: 15%;"/>
+				<h3 class ="w3-container w3-lobster w3-xlarge" style="margin-left: 5%;">We are currently working on this but still you can enjoy
+					the rest.</h3>
+			</div>
+			<div class="col-3"></div>
+		</div>
+
+		<div class="row">
+			<div class="col-12"
+				style="border-top-style: groove; margin-top: 5%; background-color: #717171;">
+				<div class="row">
+					<div class="col-2">
+						<h6 style="color: white; margin-top: -3%;">HELP / CONTACT</h6>
+						<h6
+							style="color: white; margin-top: -3%; font-size: 93%; margin-left: 5%;">0850-346-8080</h6>
+					</div>
+					<div class="col-8"></div>
+					<div class="col-2"></div>
+				</div>
+
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-8">
+						<h6 style="text-align: center; margin-bottom: -20px;">©
+							Copyright 2019 GRENT Inc. All rights are reserverd.</h6>
+					</div>
+					<div class="col-2"></div>
+				</div>
+
+			</div>
+		</div>
+
+	</h:form>
+
+</h:body>
+</html>
