@@ -169,7 +169,7 @@ public class MainBean implements Serializable {
 			}
 		} else {
 			this.navigationBarContents.add(new NavigationBarContent("Login", "login.xhtml"));
-			this.navigationBarContents.add(new NavigationBarContent("Register", "register.xhtml"));
+			this.navigationBarContents.add(new NavigationBarContent("Register", "beta.xhtml"));
 		}
 	}
 	
