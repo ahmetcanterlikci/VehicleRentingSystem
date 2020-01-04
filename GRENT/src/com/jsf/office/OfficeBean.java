@@ -61,10 +61,11 @@ public class OfficeBean implements Serializable {
 	 */
 	public void receiveOffices() {
 		try {
-			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM office ");
+			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM office where isDeleted=0");
 			ResultSet resultSet1 = pstmt.executeQuery();
 			resultSet1.beforeFirst();
 			while (resultSet1.next()) {
+				
 				String name = resultSet1.getString("name");
 				String isDeleted = resultSet1.getString("isDeleted");
 				String email = resultSet1.getString("email");
@@ -77,7 +78,12 @@ public class OfficeBean implements Serializable {
 				String country = resultSet1.getString("country");
 				Office office = new Office(name, isDeleted, email, address, phone, fax, workingDays, workingHours, city,
 						country);
+		
 				Offices.add(office);
+			
+				
+			
+			
 			}
 
 		} catch (SQLException e) {

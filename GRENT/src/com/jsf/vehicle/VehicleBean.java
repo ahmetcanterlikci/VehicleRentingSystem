@@ -4,18 +4,16 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-//import java.sql.ResultSetMetaData;
+
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
-
-import com.jsf.authentication.LoginManager;
 import com.jsf.database.DatabaseManager;
 import com.jsf.entity.Vehicle;
 
@@ -43,10 +41,7 @@ public class VehicleBean implements Serializable{
 	private int vehicleCount;
 	private Connection connection;
 	
-	private String receivingOffice;
-	private String returningOffice;
-	private Date receivingDate;
-	private Date returningDate;
+	
 	
 	
 	/**
@@ -83,48 +78,12 @@ public class VehicleBean implements Serializable{
 	 * Add the selected vehicle to the chart of the corresponding RegisteredUser
 	 * @param v selected Vehicle object
 	 */
-	public void addToChart(Vehicle v) {
-		if(LoginManager.isLoggedIn()) {
-		try {	
-			PreparedStatement pstmt = connection.prepareStatement(
-				        "SELECT * FROM chart WHERE userUserName = ? ");
-			pstmt.setString(1, LoginManager.getUsername());
-	        ResultSet resultSet1 = pstmt.executeQuery();
-	        
-	       // ResultSetMetaData rsMetaData = resultSet1.getMetaData();
-	        
-			resultSet1.beforeFirst();
-			if(resultSet1.next()) {
-				PreparedStatement pstmt2 = connection.prepareStatement(
-				        "UPDATE chart SET receivingOffice = ?, returningOffice = ?, receivingDate = ?, returningDate = ?,"
-				        + "dailyPrice = ?, vehicleName = ?, vehicleBrand = ?, vehiclePlateNumber = ? where userUserName = ? ");
-				pstmt2.setString(1, receivingOffice);
-				pstmt2.setString(2, returningOffice);
-				pstmt2.setDate(3, new java.sql.Date(receivingDate.getTime()));
-				pstmt2.setDate(4, new java.sql.Date(returningDate.getTime()));
-				pstmt2.setString(5, String.valueOf(v.getDailyprice()));
-				pstmt2.setString(6, v.getName());
-				pstmt2.setString(7, v.getBrand());
-				pstmt2.setString(8, v.getPlateNumber());
-				pstmt2.setString(9, LoginManager.getUsername());
-				pstmt2.executeUpdate();
-			}
-	        
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		notifyRent();
-		}
-	}
+	
 	
 	/**
 	 * Displays rent notification popup
 	 */
-	public void notifyRent() {
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Added to the chart succesfully.", null);
-        FacesContext.getCurrentInstance().addMessage("rentNotification", message);
-	}
+
 	
 	/**
 	 * Take the data which come from search panel on the homepage.
@@ -163,9 +122,11 @@ public class VehicleBean implements Serializable{
 	        	Date rentStart = resultSet1.getDate("rentStart");
 	        	Date rentEnd = resultSet1.getDate("rentEnd");
 	        	
+	        	
 	        	Vehicle newVehicle = new Vehicle(plateNumber, physicalStatus, rentingStatus, dailyprice,vehicleClass, gearType, fuelType,  type, numberOfSeats,
 	        			avaliableLuggage, minimumYearsOfLicense,airbags, airConditioning,
 	        			currentOfficeName, name,  brand, modelNumber, rentStart, rentEnd);
+	        	
 	        	vehicles.add(newVehicle);
 	        	
 	        }
