@@ -1,0 +1,270 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	>
+<h:head>
+	<title>GRENT - HOME</title>
+	<script src="https://kit.fontawesome.com/f4dcd45d8c.js"></script>
+
+</h:head>
+<h:body>
+
+	<h:outputStylesheet libray="default" name="css/main.css" />
+	<h:outputStylesheet libray="default" name="css/w3.css" />
+	<h:outputScript library="js" name="main.js" />
+
+	<h:form>
+
+		<div class="row">
+			<div class="col-3">
+				<div class="header">
+					<h1 style="font-weight: bold; margin-bottom: -5%; margin-top: -4%;">GRENT</h1>
+				</div>
+			</div>
+
+			<div class="col-7"></div>
+
+			<div class="col-2" style="margin-top: 1%;">
+				<a href="beta.xhtml"> <i class="fab fa-facebook"
+					style="font-size: 30px; margin-right: 5%; margin-left: 15%"></i></a> <a
+					href="beta.xhtml"> <i class="fab fa-twitter"
+					style="font-size: 30px; margin-right: 5%"></i></a> <a href="beta.xhtml">
+					<i class="fab fa-instagram" style="font-size: 30px;"></i>
+				</a>
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+
+				<div class="topnav">
+					<div class="row">
+						<div class="col-4">
+							<a class="active" href="index.xhtml">Home</a> <a
+								href="offices.xhtml">Offices</a> <a href="beta.xhtml">Vehicles</a>
+							<a href="beta.xhtml">About</a> <a href="beta.xhtml">Contact</a>
+						</div>
+						<div class="col-5"></div>
+						<div class="col-3">
+							<div class="dropdown" style="margin-left: 10%;">
+								<button class="dropbtn" style="width: 150%;">#{mainBean.navigationBarName}</button>
+								<div class="dropdown-content">
+									<p:repeat value="#{mainBean.navigationBarContents}"
+										var="content">
+										<p:commandLink action="#{mainBean.navigationAction}">
+											<h:outputText value="#{content.name}" />
+											<f:param name="exit" value="#{content.name}" />
+											<f:param name="path" value="#{content.path}" />
+										</p:commandLink>
+									</p:repeat>
+								</div>
+							</div>
+							<ui:fragment rendered="#{mainBean.loginControl == true}">
+								<a href="chart.xhtml" style="float: right; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
+							<ui:fragment rendered="#{mainBean.loginControl == false}">
+								<a href="login.xhtml" style="float: right; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-3 w3-container w3-card-4 w3-light-grey"
+				style="margin-left: 1%; margin-top: 2%;">
+
+				<div class="row" style="border-bottom-style: groove">
+					<div class="col-12">
+						<h5 style="font-weight: bold;">VEHICLES</h5>
+						<h:panelGroup id="vehicleCount">
+							<h6>#{vehicleBean.vehicleCount} vehicles are found.</h6>
+						</h:panelGroup>
+					</div>
+				</div>
+
+				<div class="row" style="border-bottom-style: groove">
+					<div class="col-12">
+						<h5 style="font-weight: bold;">Price</h5>
+						<div class="row" style="margin-top: -5%;">
+							<div class="col-12">
+								<p:selectOneRadio id="priceRange" layout="pageDirection"
+									value="#{vehicleBean.selectedPriceRange}">
+									<f:selectItem itemLabel="50 - 100" itemValue="10-20"></f:selectItem>
+									<f:selectItem itemLabel="100 - 150" itemValue="100-150"></f:selectItem>
+									<f:selectItem itemLabel="150 - 200" itemValue="150-200"></f:selectItem>
+									<f:selectItem itemLabel="200+" itemValue="200"></f:selectItem>
+								</p:selectOneRadio>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" style="border-bottom-style: groove">
+					<div class="col-12">
+						<h5 style="font-weight: bold;">Name</h5>
+						<div class="row" style="margin-top: -5%;">
+							<div class="col-12">
+								<p:selectManyCheckbox id="name" layout="pageDirection"
+									value="#{vehicleBean.nameSelections}">
+									<f:selectItems value="#{vehicleBean.selectedNames}" var="name"
+										itemLabel="#{name}" itemValue="#{name}" />
+								</p:selectManyCheckbox>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row" style="border-bottom-style: groove">
+					<div class="col-12">
+						<h5 style="font-weight: bold;">Class</h5>
+						<div class="row" style="margin-top: -5%;">
+							<div class="col-12">
+								<p:selectManyCheckbox id="className" layout="pageDirection"
+									value="#{vehicleBean.classSelections}">
+									<f:selectItems value="#{vehicleBean.selectedClasses}" var="c"
+										itemLabel="#{c}" itemValue="#{c}" />
+								</p:selectManyCheckbox>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" style="border-bottom-style: groove">
+					<div class="col-12">
+						<h5 style="font-weight: bold;">Type</h5>
+						<div class="row" style="margin-top: -5%;">
+							<div class="col-12">
+								<p:selectManyCheckbox id="type" layout="pageDirection"
+									value="#{vehicleBean.vehicleTypeSelections}">
+									<f:selectItems value="#{vehicleBean.selectedVehicleTypes}"
+										var="type" itemLabel="#{type}" itemValue="#{type}" />
+								</p:selectManyCheckbox>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="row" style="border-bottom-style: groove">
+					<div class="col-12">
+						<h5 style="font-weight: bold;">Gear Type</h5>
+						<div class="row" style="margin-top: -5%;">
+							<div class="col-12">
+								<p:selectManyCheckbox id="geartype" layout="pageDirection"
+									value="#{vehicleBean.gearTypeSelections}">
+									<f:selectItems value="#{vehicleBean.selectedGearTypes}"
+										var="type" itemLabel="#{type}" itemValue="#{type}" />
+								</p:selectManyCheckbox>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<h5 style="font-weight: bold;">Fuel Type</h5>
+						<div class="row" style="margin-top: -5%;">
+							<div class="col-12">
+								<p:selectManyCheckbox id="fueltype" layout="pageDirection"
+									value="#{vehicleBean.fuelTypeSelections}">
+									<f:selectItems value="#{vehicleBean.selectedFuelTypes}"
+										var="type" itemLabel="#{type}" itemValue="#{type}" />
+								</p:selectManyCheckbox>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-9"></div>
+					<div class="col-3">
+						<p:commandButton value="Search" id="filter"
+							action="#{vehicleBean.filter}" update="vehicleList, vehicleCount"
+							style="margin-left:-10%;" />
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-8 w3-container w3-card-4 w3-light-grey"
+				style="margin-left: 1%; margin-top: 2%;">
+				<h:panelGroup id="vehicleList">
+					<p:repeat value="#{vehicleBean.selectedVehicles}" var="vehicle">
+						<div class="row" style="border-bottom-style: groove;">
+							<div class="col-3">
+								<h:graphicImage
+									url="/resources/images/#{vehicle.plateNumber}.jpg"
+									style="width: 280px;" class="w3-border w3-padding" />
+							</div>
+							<div class="col-3">
+								<div style="margin-left: 15%;">
+									<h4 style="font-weight: bold;">#{vehicle.name}</h4>
+									<h5>Brand: #{vehicle.brand}</h5>
+									<h5>Type: #{vehicle.type}</h5>
+									<h5>Fuel: #{vehicle.fuelType}</h5>
+									<h5>Gear: #{vehicle.gearType}</h5>
+									<h5>Luggage: #{vehicle.avaliableLuggage}</h5>
+									<h5>Class: #{vehicle.vehicleClass}</h5>
+								</div>
+							</div>
+							<div class="col-3">
+								<div style="margin-left: 35%;">
+									<h4 style="font-weight: bold;">$ #{vehicle.dailyprice}</h4>
+									<h5>Conditioner: #{vehicle.airConditioning}</h5>
+									<h5>Airbags: #{vehicle.airbags}</h5>
+								</div>
+							</div>
+							<div class="col-3">
+								<p:commandButton value="Rent" id="addToChart"
+									style="margin-left: 55%; font-size:20px;"
+									action="#{vehicleBean.addToChart(vehicle)}" update="@form" />
+							</div>
+						</div>
+					</p:repeat>
+				</h:panelGroup>
+				<p:growl id="rentNotification" life="2000"/>
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-12"
+				style="border-top-style: groove; margin-top: 5%; background-color: #717171;">
+				<div class="row">
+					<div class="col-2">
+						<h6 style="color: white; margin-top: -3%;">HELP / CONTACT</h6>
+						<h6
+							style="color: white; margin-top: -3%; font-size: 93%; margin-left: 5%;">0850-346-8080</h6>
+					</div>
+					<div class="col-8"></div>
+					<div class="col-2"></div>
+				</div>
+
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-8">
+						<h6 style="text-align: center; margin-bottom: -20px;">©
+							Copyright 2019 GRENT Inc. All rights are reserverd.</h6>
+					</div>
+					<div class="col-2"></div>
+				</div>
+
+			</div>
+		</div>
+
+	</h:form>
+
+</h:body>
+</html>
