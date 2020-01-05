@@ -38,7 +38,7 @@ public class MyProfileBean implements Serializable {
 			if(roleString.equalsIgnoreCase("RegisteredUser")) {
 				profilecontens.add(new MyProfileContent("Account Information", "accountinfo.xhtml","fas fa-id-card"));
 				profilecontens.add(new MyProfileContent("Personal Information", "personalinfo.xhtml", "fas fa-user-edit"));
-				profilecontens.add(new MyProfileContent("Change Password", "beta.xhtml", "fas fa-lock"));
+				profilecontens.add(new MyProfileContent("Change Password", "changepassword.xhtml", "fas fa-lock"));
 				profilecontens.add(new MyProfileContent("Discounts", "beta.xhtml", "fas fa-tags"));
 				profilecontens.add(new MyProfileContent("My Rentings", "beta.xhtml", "fas fa-car-alt"));
 			}else if (roleString.equalsIgnoreCase("OfficeUser")) {
