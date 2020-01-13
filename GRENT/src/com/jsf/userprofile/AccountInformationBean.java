@@ -1,6 +1,7 @@
 package com.jsf.userprofile;
 
 import java.sql.Connection;
+import java.util.regex.Pattern;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,7 +71,7 @@ public class AccountInformationBean {
 					String name = resultSet1.getString("name");
 					String surname = resultSet1.getString("surname");
 					Date birthdate = resultSet1.getDate("birthdate");
-					String phone = resultSet1.getString("username");
+					String phone = resultSet1.getString("phone");
 					String gender = resultSet1.getString("gender");
 					String address = resultSet1.getString("address");
 					String city = resultSet1.getString("city");
@@ -140,6 +141,13 @@ public class AccountInformationBean {
 	 */
 	public void savePersonalInfo() {
 		try {
+				
+				if (!registeredUser.getPhone().matches("^[0-9]*$") ) {
+					
+					String warningMessage1 = "Phone field should only contain numbers!";
+					FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
+					
+				} else {
 				PreparedStatement pstmt = connection.prepareStatement(
 						"UPDATE registereduser SET birthdate=?, phone=?, city=?, country=?, address=?, gender=?, driverLicenseDate=? WHERE username = ?  ");
 				pstmt.setDate(1, new java.sql.Date(registeredUser.getBirthdate().getTime()));
@@ -154,7 +162,7 @@ public class AccountInformationBean {
 
 				String warningMessage1 = "Saved succesfully.";
 				FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
-			
+				}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
