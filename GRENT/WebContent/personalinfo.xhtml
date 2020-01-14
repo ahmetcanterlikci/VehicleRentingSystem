@@ -165,6 +165,9 @@
 							<h4>Birthdate</h4>
 							<p:calendar id="birthdate"
 								value="#{accountInformationBean.registeredUser.birthdate}"
+								
+								navigator="true" yearRange="c-100:today" 
+								
 								showOn="button" />
 							<h4>Phone</h4>
 							<p:inputText
@@ -197,6 +200,7 @@
 							<h4>Driver's License Date</h4>
 							<p:calendar id="driverLicenseDate"
 								value="#{accountInformationBean.registeredUser.driverLicenseDate}"
+								navigator="true" yearRange="c-100:today" 
 								showOn="button" />
 							<br />
 							<p:commandButton value="Save" id="saveButton"

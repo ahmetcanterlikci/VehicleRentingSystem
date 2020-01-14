@@ -5,13 +5,14 @@ import java.util.regex.Pattern;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import com.jsf.authentication.LoginManager;
 import com.jsf.database.DatabaseManager;
 import com.jsf.entity.RegisteredUser;
@@ -26,6 +27,7 @@ public class AccountInformationBean {
 	private RegisteredUser registeredUser;
 	private boolean usernameFlag;
 	private boolean emailFlag;
+	
 
 	/**
 	 * Initialize method of the class
@@ -147,7 +149,17 @@ public class AccountInformationBean {
 					String warningMessage1 = "Phone field should only contain numbers!";
 					FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
 					
-				} else {
+				}else if(registeredUser.getBirthdate().after(new Date())) {
+					String warningMessage1 = "Your birthdate is invalid!";
+					FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
+					
+				}	else if(registeredUser.getDriverLicenseDate().after(new Date())) {
+					String warningMessage1 = "Your driver licence date is invalid!";
+					FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
+					
+				}
+				else {
+				
 				PreparedStatement pstmt = connection.prepareStatement(
 						"UPDATE registereduser SET birthdate=?, phone=?, city=?, country=?, address=?, gender=?, driverLicenseDate=? WHERE username = ?  ");
 				pstmt.setDate(1, new java.sql.Date(registeredUser.getBirthdate().getTime()));
@@ -199,6 +211,9 @@ public class AccountInformationBean {
 
 		return false;
 	}
+	
+
+		
 
 	/**
 	 * Checks whether given email is already taken or not.
