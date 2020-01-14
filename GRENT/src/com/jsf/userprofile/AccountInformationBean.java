@@ -115,7 +115,7 @@ public class AccountInformationBean {
 			} else if(registeredUser.getEmail().equals("") || registeredUser.getEmail() == null) {
 				String warningMessage1 = "Email cannot be empty.";
 				FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
-			} else if(registeredUser.getUsername().equals("") || registeredUser.getUsername() == null) {
+			} else if(registeredUser.getUsername().equals("") ||  registeredUser.getUsername() == null) {
 				String warningMessage1 = "Username cannot be empty.";
 				FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
 			}else {
