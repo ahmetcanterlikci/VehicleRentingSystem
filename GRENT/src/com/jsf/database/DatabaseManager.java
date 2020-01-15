@@ -1,5 +1,4 @@
 package com.jsf.database;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -18,7 +17,7 @@ public abstract class DatabaseManager {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 				System.out.println("Driver loaded");
-				connection = DriverManager.getConnection("jdbc:mysql://localhost/grent", "root", "batsy.Genchi*99");
+				connection = DriverManager.getConnection("jdbc:mysql://localhost/grent?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "W4VTpYEs4ajN");
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
