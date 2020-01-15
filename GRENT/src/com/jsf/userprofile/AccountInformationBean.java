@@ -118,7 +118,14 @@ public class AccountInformationBean {
 			} else if(registeredUser.getUsername().equals("") ||  registeredUser.getUsername() == null) {
 				String warningMessage1 = "Username cannot be empty.";
 				FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
-			}else {
+			}
+			else if(!registeredUser.getName().matches("^[a-zA-Z]*$")) {
+				String warningMessage1 = "Name cannot contain numbers .";
+				FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
+			} else if(!registeredUser.getSurname().matches("^[a-zA-Z]*$")) {
+				String warningMessage1 = "surname cannot contain numbers .";
+				FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage1));
+			} else {
 				PreparedStatement pstmt = connection.prepareStatement(
 						"UPDATE registereduser SET name=?, surname=?, email=? WHERE username = ?  ");
 				pstmt.setString(1, registeredUser.getName());
