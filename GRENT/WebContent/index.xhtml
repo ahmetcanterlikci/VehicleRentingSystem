@@ -171,16 +171,16 @@
 					<!-- value="#{dropdownView.country}"  -->
 				</p:selectOneMenu>
 				<h5>Receiving Date</h5>
-				<p:datePicker id="receiveDate" showIcon="true" showTime="true"
-					style="width:250px;" value="#{mainBean.receivingDate}" />
+				<p:calendar id="receiveDate" navigator="true"  timeInput="true"
+					style="width:250px;" value="#{mainBean.receivingDate}" mindate = "#{mainBean.maxdate}" yearRange="c:c" autocomplete="off" showOn="both" pattern ="dd/MM/yyyy HH:mm"/>
 				<!-- value="#{dropdownView.country}"  -->
 				<h5>Returning Date</h5>
-				<p:datePicker id="returnDate" showIcon="true"
-					style="margin-bottom:7%; width:250px;" showTime="true"
-					value="#{mainBean.returningDate}" />
+				<p:calendar id="returnDate" navigator="true" 
+					style="margin-bottom:7%; width:250px;" timeInput="true" mindate = "#{mainBean.maxdate}" yearRange="c:c" autocomplete="off" showOn="both"
+					value="#{mainBean.returningDate}" pattern ="dd/MM/yyyy HH:mm" />
 				<br />
 				<p:commandButton value="Search"
-					style="font-size:15px; width:100px; height:30px; margin-bottom: 5%;"
+					style="font-size:15px; width:100px; height:30px; margin-bottom: 5%; margin-top:5%;"
 					action="#{mainBean.searchAction(mainBean.receivingOfficeName, mainBean.returningOfficeName, mainBean.returningDate, mainBean.receivingDate)}">
 				</p:commandButton>
 			</div>

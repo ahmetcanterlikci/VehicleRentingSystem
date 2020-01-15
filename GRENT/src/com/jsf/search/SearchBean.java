@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
@@ -100,8 +101,12 @@ public class SearchBean implements Serializable{
 				        + "dailyPrice = ?, vehicleName = ?, vehicleBrand = ?, vehiclePlateNumber = ? where userUserName = ? ");
 				pstmt2.setString(1, receivingOffice);
 				pstmt2.setString(2, returningOffice);
-				pstmt2.setDate(3, new java.sql.Date(receivingDate.getTime()));
-				pstmt2.setDate(4, new java.sql.Date(returningDate.getTime()));
+//				pstmt2.setDate(3, new java.sql.Date(receivingDate.getTime()));
+//				pstmt2.setDate(4, new java.sql.Date(returningDate.getTime()));
+				java.sql.Timestamp receivingTimestamp = new java.sql.Timestamp(receivingDate.getTime());
+				java.sql.Timestamp returningTimestamp = new java.sql.Timestamp(returningDate.getTime());
+				pstmt2.setTimestamp(3, receivingTimestamp);
+				pstmt2.setTimestamp(4, returningTimestamp);
 				pstmt2.setString(5, String.valueOf(v.getDailyprice()));
 				pstmt2.setString(6, v.getName());
 				pstmt2.setString(7, v.getBrand());
@@ -146,7 +151,7 @@ public class SearchBean implements Serializable{
 	public void receiveVehicles() { // load the vehicles from database
 		try {
 			PreparedStatement pstmt = connection.prepareStatement(
-				        "SELECT * FROM vehicle ");
+				        "SELECT * FROM vehicle WHERE isDeleted = False and rentingStatus = 'Not Rented' ");
 	        ResultSet resultSet1 = pstmt.executeQuery();
 	        
 	        ResultSetMetaData rsMetaData = resultSet1.getMetaData();

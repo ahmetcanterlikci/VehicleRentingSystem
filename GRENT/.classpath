@@ -9,22 +9,22 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/TUNÇ/Documents/VehicleRentingSystem/Libraries&amp;Resources/cdi-api-2.0.SP1.jar">
+	<classpathentry kind="lib" path="/Users/ahmetcanterlikci/VehicleRentingSystem/Libraries&amp;Resources/cdi-api-2.0.SP1.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/TUNÇ/Documents/VehicleRentingSystem/Libraries&amp;Resources/mysql-connector-java-8.0.18.jar">
+	<classpathentry kind="lib" path="/Users/ahmetcanterlikci/VehicleRentingSystem/Libraries&amp;Resources/mysql-connector-java-8.0.18.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/TUNÇ/Documents/VehicleRentingSystem/Libraries&amp;Resources/primefaces-7.0.jar">
+	<classpathentry kind="lib" path="/Users/ahmetcanterlikci/VehicleRentingSystem/Libraries&amp;Resources/primefaces-7.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSF">
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JSF_library">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>

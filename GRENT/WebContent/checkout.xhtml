@@ -83,12 +83,56 @@
 		</div>
 
 		<div class="row">
-		    <ui:fragment rendered ="#{chartBean.showChart == true}">
-			<div class="col-8 w3-container w3-card-4 w3-light-grey" style="width: 60%; margin-left: 1%;">
+			<div class="col-8 w3-container w3-card-4 w3-light-grey"
+				style="width: 60%; margin-left: 1%;">
 				<div class="row">
 					<div class="col-12">
-						<h3 style="border-bottom-style: groove; font-weight: bold;">MY
-							CHART</h3>
+						<h3 style="border-bottom-style: groove; font-weight: bold;">Personal  
+							Info</h3>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<h4>Name</h4>
+						<p:inputText value="#{checkoutBean.registeredUser.name}" 
+							style="width: 57%;"></p:inputText>
+						<h4>Surname</h4>
+						<p:inputText
+							value="#{checkoutBean.registeredUser.surname}"
+							style="width: 57%;"></p:inputText>
+						<h4>Email</h4>
+						<p:inputText
+							value="#{checkoutBean.registeredUser.email}"
+							style="width: 57%;"></p:inputText>
+
+						<h4>Birthdate</h4>
+						<p:calendar id="birthdate"
+							value="#{checkoutBean.registeredUser.birthdate}"
+							navigator="true" yearRange="c-100:c" showOn="button" maxdate = "#{checkoutBean.maxdate}"/>
+						<h4>Phone</h4>		
+						<p:inputMask id="phone" value="#{checkoutBean.registeredUser.phone}" style="width: 90%;" mask="(9999) 999-9999"/>
+
+					</div>
+					<div class="col-6">
+					    <h4>Social Security Number</h4>
+						<p:inputMask id="ssn" value="#{checkoutBean.scn}" style="width: 90%;" mask="999-9999-9999"/>
+						<h4>City</h4>
+						<p:inputText value="#{checkoutBean.registeredUser.city}"
+							style="width: 90%;"></p:inputText>
+						<h4>Country</h4>
+						<p:inputText
+							value="#{checkoutBean.registeredUser.country}"
+							style="width: 90%;"></p:inputText>
+						<h4>Address</h4>
+						<p:inputTextarea rows="5" cols="40"
+							value="#{checkoutBean.registeredUser.address}" />
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-12">
+						<h3 style="border-bottom-style: groove; font-weight: bold;">Order
+							Summary</h3>
 					</div>
 				</div>
 				<div class="row">
@@ -96,7 +140,7 @@
 						<ui:fragment rendered="#{chartBean.loggedIn == true }">
 							<h:graphicImage
 								url="/resources/images/#{chartBean.chart.vehiclePlateNumber}.jpg"
-								style="width: 280px;" class="w3-border w3-padding" /> 
+								style="width: 280px;" class="w3-border w3-padding" />
 						</ui:fragment>
 					</div>
 					<div class="col-1"></div>
@@ -107,31 +151,34 @@
 							#{chartBean.chart.receivingOffice}</h6>
 						<h6>Return: #{chartBean.returnStringDate} -
 							#{chartBean.chart.returningOffice}</h6>
-							<p:commandButton value="Cancel" id="chartDelete"
-									style="margin-top: 4%; margin-bottom: 6%; font-size:17px;" action="#{chartBean.deleteVehicle}"/>
+						<p:commandButton value="Cancel" id="chartDelete"
+							style="margin-top: 4%; margin-bottom: 6%; font-size:17px;"
+							action="#{chartBean.deleteVehicle}" />
 					</div>
 				</div>
-			</div>
-			</ui:fragment>
-			
-			<ui:fragment rendered ="#{chartBean.showChart == false}">
-			<div class="col-8 w3-container w3-card-4 w3-light-grey" style="width: 60%; margin-left: 1%;">
 				<div class="row">
 					<div class="col-12">
-						<h3 style="border-bottom-style: groove; font-weight: bold;">MY
-							CHART</h3>
+						<h3 style="border-bottom-style: groove; font-weight: bold;">Payment
+							Info</h3>
 					</div>
-				</div>
-				<div class="row">
-					<div class ="col-12">
-					<h4>Nothing to show.</h4>
-					</div>
+					<h4>Name - Surname</h4>
+						<p:inputText value="#{checkoutBean.namesurname}"
+							style="width: 57%;"></p:inputText>
+					<h4>Credit Card Number</h4>
+						<p:inputText value="#{checkoutBean.creditcardno}" 
+							style="width: 57%;"></p:inputText>
+				    <h4>Expiration Date</h4>
+						<p:inputMask id="date" value="#{checkoutBean.expdate}" mask="99/99"/>
+					<h4>CVC2</h4>
+						<p:inputText value="#{checkoutBean.cvc2}"
+							style="margin-bottom: 5%; "></p:inputText>
+					
 				</div>
 			</div>
-			</ui:fragment>
-			
-			<ui:fragment rendered ="#{chartBean.showChart == true}">
-			<div class="col-4 w3-container w3-card-4 w3-light-grey" style="width: 30%; margin-left: 1%;">
+
+
+			<div class="col-4 w3-container w3-card-4 w3-light-grey"
+				style="width: 30%; margin-left: 1%;">
 				<div class="row">
 					<div class="col-12">
 						<h3 style="border-bottom-style: groove; font-weight: bold;">SUMMARY</h3>
@@ -144,29 +191,16 @@
 						<br />
 						<h5>Total Price:</h5>
 						<h6>$ #{chartBean.totalPrice}</h6>
-						<p:commandButton value="Go to Checkout" id="checkout"
-									style="margin-top: 5%; font-size:20px; float: right;" action ="#{chartBean.goToCheckout}" update="warningMessage"/>
+						<p:commandButton value="Complete the Order" id="checkout"
+							style="margin-top: 5%; font-size:20px; float: right;"
+							action="#{checkoutBean.completeTheOrder}" update = "warningMessage"/>
 					</div>
 				</div>
+				<br />
 				<p:messages id="warningMessage" />
 			</div>
-			</ui:fragment>
-			
-			<ui:fragment rendered ="#{chartBean.showChart == false}">
-			<div class="col-4 w3-container w3-card-4 w3-light-grey" style="width: 30%; margin-left: 1%;">
-				<div class="row">
-					<div class="col-12">
-						<h3 style="border-bottom-style: groove; font-weight: bold;">SUMMARY</h3>
-					</div>
-				</div> 
-				<div class="row">
-					<div class="col-12">
-						<h4>Nothing to show.</h4>
-					</div>
-				</div>
-			</div>
-			</ui:fragment>
-			
+
+
 		</div>
 
 		<div class="row">

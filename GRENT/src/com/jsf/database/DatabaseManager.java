@@ -18,7 +18,7 @@ public abstract class DatabaseManager {
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 				System.out.println("Driver loaded");
-				connection = DriverManager.getConnection("jdbc:mysql://localhost/grent", "root", "batsy.Genchi*99");
+				connection = DriverManager.getConnection("jdbc:mysql://localhost/grent", "root", "Boardkastroyaka863*");
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

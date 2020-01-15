@@ -1,7 +1,7 @@
 CREATE TABLE RegisteredUser(
 username varchar(50),
 isDeleted boolean,
-email varchar(50),
+email varchar(50) unique,
 password varchar(50),
 name varchar(50),
 surname varchar(50),
@@ -101,6 +101,7 @@ vehicleName varchar(50),
 vehicleBrand varchar(50),
 vehiclePlateNumber varchar(50),
 status varchar(50),
+orderNumber varchar(300) unique,
 primary key(id)
 );
 
