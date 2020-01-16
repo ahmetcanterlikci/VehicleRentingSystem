@@ -17,6 +17,7 @@
 
 
 	<h:form>
+
 		<div class="row">
 			<div class="col-3">
 				<div class="header">
@@ -81,108 +82,64 @@
 		</div>
 
 		<div class="row">
-			<div class="col-3 w3-container w3-card-4 w3-light-grey"
-				style="margin-left: 1%; margin-top: 2%;">
-
-				<div class="row" style="border-bottom-style: groove">
-					<div class="col-12">
-						<h5 style="font-weight: bold;">OFFICES</h5>
-						<h:panelGroup id="officeCount">
-							<h6>#{officeBean.officeCount} offices are found.</h6>
-						</h:panelGroup>
-					</div>
-				</div> 
-
-				<div class="row" style="border-bottom-style: groove">
-					<div class="col-12">
-						<h5 style="font-weight: bold;">Country</h5>
-						<div class="row" style="margin-top: -5%;">
-							<div class="col-12">
-								<p:selectManyCheckbox id="country" layout="pageDirection"
-									value="#{officeBean.selectedcountry}">
-									<f:selectItems value="#{officeBean.countries}" var="city"
-										itemLabel="#{country}" itemValue="#{country}" />
-								</p:selectManyCheckbox>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row" style="border-bottom-style: groove">
-					<div class="col-12">
-						<h5 style="font-weight: bold;">City</h5>
-						<div class="row" style="margin-top: -5%;">
-							<div class="col-12">
-								<p:selectManyCheckbox id="city" layout="pageDirection"
-									value="#{officeBean.selectedCities}">
-									<f:selectItems value="#{officeBean.cities}" var="city"
-										itemLabel="#{city}" itemValue="#{city}" />
-								</p:selectManyCheckbox>
-							</div>
-
-						</div>
-					</div>
-				</div>
-
-				<div class="row" style="border-bottom-style: groove">
-					<div class="col-12">
-						<h5 style="font-weight: bold;">Name</h5>
-						<div class="row" style="margin-top: -5%;">
-							<div class="col-12">
-									<p:selectManyCheckbox id="name" layout="pageDirection"
-									value="#{officeBean.selectedNames}">
-									<f:selectItems value="#{officeBean.nameSelections}" var="name"
-										itemLabel="#{name}" itemValue="#{name}" />
-								</p:selectManyCheckbox>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-		
-		
+			<div class="col-3"></div>
+			<div class="col-6 w3-container w3-card-4 w3-light-grey">
 				<div class="row">
-					<div class="col-9"></div>
-					<div class="col-3">
-						<p:commandButton value="Search" id="filter"
-							action="#{officeBean.filter}" update="OfficeList, officeCount"
-							style="margin-left:-10%;" />
+					<div class="col-3"></div>
+					<div class="col-6">
+						<h2 style="font-weight: bold; border-bottom-style: groove;">REGISTER</h2>
 					</div>
+					<div class="col-3"></div>
 				</div>
+
+				<div class="row">
+					<div class="col-3"></div>
+					<div class="col-6">
+						<p:panel id="registerpanel">
+							<h3>Username:</h3>
+							<p:inputText id="registerUsername"
+								value="#{registerBean.username}" style="width:100%;" />
+							<h3>Email:</h3>
+							<p:inputText id="registeremail" value="#{registerBean.email}"
+								style="width:100%;" />
+							<h3>Password:</h3>
+							<p:password id="registerPassword"
+								value="#{registerBean.password}"
+								style="margin-bottom:5%; width:100%;" />
+							<h3>Password again:</h3>
+							<p:password id="registerPasswordagain"
+								value="#{registerBean.passwordagain}"
+								style="margin-bottom:5%; width:100%;" />
+						</p:panel>
+					</div>
+					<div class="col-3"></div>
+				</div>
+				<div class="row">
+					<div class="col-3"></div>
+					<div class="col-6">
+						<p:commandButton value="Register"
+							action="#{registerBean.validateUser}" update="warningMessage"
+							style="font-size: 20px; width:100%;" />
+					</div>
+					<div class="col-3"></div>
+				</div>
+				<div class="row">
+					<div class="col-3"></div>
+					<div class="col-3"></div>
+				</div>
+				<div class="row">
+					<div class="col-3"></div>
+					<div class="col-6">
+						<p:messages id="warningMessage" />
+
+					</div>
+					<div class="col-3"></div>
+				</div>
+
 			</div>
-
-
-			<div class="col-6 w3-container w3-card-4 w3-light-grey"
-				style="margin-left: 1%; margin-top: 2%;">
-				<h:panelGroup id="OfficeList">
-					<p:repeat value="#{officeBean.selectedOffices}" var="Office">
-						<div class="row" style="border-bottom-style: groove;">
-							<div class="col-6">
-								<div style="margin-left: 3%;">
-									<h4 style="font-weight: bold; margin-bottom:7%; ">#{Office.name}</h4>
-									
-									<div>
-									    <h5>Mail: #{Office.email}</h5>
-									    <h5>Phone: #{Office.phone}</h5>
-										<h5>Address: #{Office.address}</h5>
-										<h5>City/Country: #{Office.city}/#{Office.country}</h5>
-									</div>
-									<h5>Working Hours: #{Office.workingDays} #{Office.workingHours}</h5>
-
-								</div>
-							</div>
-							<div class="col-3"></div>
-							<div class="col-3">
-								<p:commandButton value="Manage" id="addToChart"
-									style="margin-left: 40%; font-size:18px;" />
-							</div>
-						</div>
-					</p:repeat>
-				</h:panelGroup>
-			</div>
-
+			<div class="col-3"></div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-12"
 				style="border-top-style: groove; margin-top: 5%; background-color: #717171;">
@@ -207,6 +164,7 @@
 
 			</div>
 		</div>
+
 	</h:form>
 
 </h:body>

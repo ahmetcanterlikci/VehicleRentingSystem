@@ -1,5 +1,4 @@
 package com.jsf.authentication;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -7,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -29,7 +27,6 @@ public class LoginBean implements Serializable{
 	private String password;
 	private String warningMessage;
 	private Connection connection;
-
 	/**
 	 * Initialize method of the class
 	 */

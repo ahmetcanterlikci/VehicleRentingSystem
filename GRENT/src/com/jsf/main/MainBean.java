@@ -35,11 +35,12 @@ public class MainBean implements Serializable {
 	private String navigationBarName;
 	private Connection connection;
 	private ArrayList<Office> offices;
-	private String receivingOfficeName;
+	private String receivingOfficeName; 
 	private String returningOfficeName;
 	private Date receivingDate;
 	private Date returningDate;
 	private boolean loginControl;
+	private Date maxdate;
 
 	@PostConstruct
 	public void init() {
@@ -55,6 +56,7 @@ public class MainBean implements Serializable {
 		}
 		
 		loginControl();
+		this.maxdate = new Date();
 	}
 	
 	/**
@@ -257,6 +259,9 @@ public class MainBean implements Serializable {
 	}
 	public boolean isLoginControl() {
 		return loginControl;
+	}
+	public Date getMaxdate() {
+		return maxdate;
 	}
 
 }

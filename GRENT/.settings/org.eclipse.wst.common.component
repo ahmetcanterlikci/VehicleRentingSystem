@@ -2,6 +2,7 @@
     <wb-module deploy-name="GRENT">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/"/>
         <property name="context-root" value="GRENT"/>
         <property name="java-output-path" value="/GRENT/build/classes"/>
     </wb-module>

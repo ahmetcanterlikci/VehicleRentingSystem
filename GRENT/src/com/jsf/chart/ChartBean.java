@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
@@ -18,6 +19,7 @@ import javax.faces.context.FacesContext;
 import com.jsf.authentication.LoginManager;
 import com.jsf.database.DatabaseManager;
 import com.jsf.entity.Chart;
+
 
 /**
  * Controller class of the chart page.
@@ -33,6 +35,8 @@ public class ChartBean implements Serializable {
 	private String totalDays;
 	private String totalPrice;
 	private boolean showChart;
+	private String returnStringDate;
+	private String receiveStringDate;
 
 	/**
 	 * Initialize method of the class
@@ -64,6 +68,7 @@ public class ChartBean implements Serializable {
 			showChart=true;
 		}
 	}
+	
 
 	/**
 	 * Calculate totalDays and totalPrice.
@@ -150,8 +155,12 @@ public class ChartBean implements Serializable {
 			resultSet1.beforeFirst();
 			while (resultSet1.next()) {
 				String userUserName = resultSet1.getString("userUserName");
+				
 				Date returningDate = resultSet1.getDate("returningDate");
 				Date receivingDate = resultSet1.getDate("receivingDate");
+				returnStringDate = resultSet1.getString("returningDate");
+				receiveStringDate = resultSet1.getString("receivingDate");
+				
 				String returningOffice = resultSet1.getString("returningOffice");
 				String receivingOffice = resultSet1.getString("receivingOffice");
 				String userName = resultSet1.getString("userName");
@@ -169,6 +178,70 @@ public class ChartBean implements Serializable {
 						vehiclePlateNumber, discountId, dailyPrice);
 			}
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void goToCheckout() {
+		try {
+			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM vehicle WHERE plateNumber = ? ");
+			pstmt.setString(1, this.chart.getVehiclePlateNumber());
+			ResultSet resultSet1 = pstmt.executeQuery();
+		    resultSet1.beforeFirst();
+		    
+		    String rentingStatuString = "";
+		    while(resultSet1.next()) {
+		    	rentingStatuString = resultSet1.getString("rentingStatus");
+		    }
+		    
+		    if(rentingStatuString.equals("Rented")) {
+				
+				cleanUserCart();
+				redirectChartPage();
+				
+				String warningMessage = "Sorry! The vehicle in your cart is already rented.";
+				FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage));
+				
+				String warningMessage2 = "Vehicle is removed from your cart.";
+				FacesContext.getCurrentInstance().addMessage("warningMessage", new FacesMessage(warningMessage2));
+				
+		    }else {
+		    	directToCheckoutPage();
+		    }
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void directToCheckoutPage() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			ec.redirect(ec.getRequestContextPath() + "/checkout.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void cleanUserCart() {
+		try {
+			PreparedStatement pstmt2 = connection.prepareStatement(
+					"UPDATE chart SET receivingOffice = ?, returningOffice = ?, receivingDate = ?, returningDate = ?,"
+							+ "dailyPrice = ?, vehicleName = ?, vehicleBrand = ?, vehiclePlateNumber = ? where userUserName = ? ");
+			pstmt2.setString(1, null);
+			pstmt2.setString(2, null);
+			pstmt2.setString(3, null);
+			pstmt2.setString(4, null);
+			pstmt2.setString(5, null);
+			pstmt2.setString(6, null);
+			pstmt2.setString(7, null);
+			pstmt2.setString(8, null);
+			pstmt2.setString(9, LoginManager.getUsername());
+			pstmt2.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -196,6 +269,13 @@ public class ChartBean implements Serializable {
 	}
 	public boolean isShowChart() {
 		return showChart;
+	}
+	
+	public String getReceiveStringDate() {
+		return receiveStringDate;
+	}
+	public String getReturnStringDate() {
+		return returnStringDate;
 	}
 
 }
