@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>GRENT - HOME</title>
+	<script src="https://kit.fontawesome.com/f4dcd45d8c.js"></script>
+
+</h:head>
+<h:body>
+
+	<h:form>
+
+		<h:outputStylesheet libray="default" name="css/main.css" />
+		<h:outputStylesheet libray="default" name="css/w3.css" />
+		<h:outputScript library="js" name="myorders.js" />
+
+
+		<div class="row">
+			<div class="col-3">
+				<div class="header">
+					<h1 style="font-weight: bold; margin-bottom: -5%; margin-top: -4%;">GRENT</h1>
+				</div>
+			</div>
+
+			<div class="col-7"></div>
+
+			<div class="col-2" style="margin-top: 1%;">
+				<a href="beta.xhtml"> <i class="fab fa-facebook"
+					style="font-size: 30px; margin-right: 5%; margin-left: 15%"></i></a> <a
+					href="beta.xhtml"> <i class="fab fa-twitter"
+					style="font-size: 30px; margin-right: 5%"></i></a> <a href="beta.xhtml">
+					<i class="fab fa-instagram" style="font-size: 30px;"></i>
+				</a>
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+
+				<div class="topnav">
+					<div class="row">
+						<div class="col-4">
+							<a class="active" href="index.xhtml">Home</a> <a
+								href="offices.xhtml">Offices</a> <a href="vehicles.xhtml">Vehicles</a>
+							<a href="beta.xhtml">About</a> <a href="beta.xhtml">Contact</a>
+						</div>
+						<div class="col-5"></div>
+						<div class="col-3">
+							<div class="dropdown" style="margin-left: 10%;">
+								<button class="dropbtn" style="width: 150%;">#{mainBean.navigationBarName}</button>
+								<div class="dropdown-content">
+									<p:repeat value="#{mainBean.navigationBarContents}"
+										var="content">
+										<p:commandLink action="#{mainBean.navigationAction}">
+											<h:outputText value="#{content.name}" />
+											<f:param name="exit" value="#{content.name}" />
+											<f:param name="path" value="#{content.path}" />
+										</p:commandLink>
+									</p:repeat>
+								</div>
+							</div>
+							<ui:fragment rendered="#{mainBean.loginControl == true}">
+								<a href="chart.xhtml" style="float: right; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
+							<ui:fragment rendered="#{mainBean.userControl == false}">
+								<ui:fragment rendered="#{mainBean.loginControl == false}">
+									<a href="login.xhtml" style="float: right; margin-top: -1%;">
+										<i class="fas fa-shopping-cart"
+										style="font-size: 36px; float: right;"></i>
+									</a>
+								</ui:fragment>
+							</ui:fragment>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<div class="row">
+					<div class="col-2 w3-container w3-card-4 w3-light-grey">
+
+						<h5 class="w3-bar-item" style="font-weight: bold;">Renting
+							Status</h5>
+						<div class="row">
+							<div class="col-12">
+								<a class="w3-bar-item w3-button tablink w3-red "
+									onclick="openCity(event, 'Current')">Active</a>
+								<br />
+
+								<a class="w3-bar-item w3-button tablink"
+									onclick="openCity(event, 'Past')">Completed</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-8">
+						<div id="Current"
+							class="city w3-container w3-card-4 w3-light-grey"
+							style="display: block; margin-top: -1.25%;">
+							<h3 style="margin-bottom: 3%; font-weight: bold">ACTIVE
+								RENTINGS</h3>
+							<p:repeat value="#{myRentingsBean.activeRentings}" var="renting">	
+							<div class="row">
+								<div class="col-3">
+									<p>Renting : #{renting.orderNumber}</p>
+									<p>Date : #{renting.rentingStringDate}</p>
+								</div>
+								<div class="col-3"></div>
+								<div class="col-3">
+									<h4 style="font-weight: bold">$ #{renting.totalPrice}</h4>
+									<h5>#{renting.paymentType}</h5>
+									<h5>#{renting.totalDays} days</h5>
+								</div>
+								<div class="col-3"></div>
+							</div>
+							<div class="row" style="border-bottom-style: groove;">
+								<div class="col-3">
+									<ui:fragment rendered="#{chartBean.loggedIn == true }">
+										<h:graphicImage
+											url="/resources/images/#{renting.vehiclePlateNumber}.jpg"
+											style="width: 280px;" class="w3-border w3-padding" />
+									</ui:fragment>
+								</div>
+								<div class="col-1"></div>
+								<div class="col-8">
+									<h5 style="font-weight: bold;">#{renting.vehicleName}</h5>
+									<h6>Receive: #{renting.receiveStringDate} -
+										#{renting.receivingOffice}</h6>
+									<h6>Return: #{renting.returnStringDate} -
+										#{renting.returningOffice}</h6> 
+								</div>
+							</div>
+                            </p:repeat>
+						</div>
+
+						<div id="Past"
+							class="city w3-container w3-card-4 w3-light-grey"
+							style="display: none; margin-top: -1.25%;">
+							<h3 style="margin-bottom: 3%; font-weight: bold">COMPLETED
+								RENTINGS</h3>
+							<p:repeat value="#{myRentingsBean.completedRentings}" var="renting">	
+							<div class="row">
+								<div class="col-3">
+									<p>Renting : #{renting.orderNumber}</p>
+									<p>Date : #{renting.rentingStringDate}</p>
+								</div>
+								<div class="col-3"></div>
+								<div class="col-3">
+									<h4 style="font-weight: bold">$ #{renting.totalPrice}</h4>
+									<h5>#{renting.paymentType}</h5>
+									<h5>#{renting.totalDays} days</h5>
+								</div>
+								<div class="col-3"></div>
+							</div>
+							<div class="row" style="border-bottom-style: groove;">
+								<div class="col-3">
+									<ui:fragment rendered="#{chartBean.loggedIn == true }">
+										<h:graphicImage
+											url="/resources/images/#{renting.vehiclePlateNumber}.jpg"
+											style="width: 280px;" class="w3-border w3-padding" />
+									</ui:fragment>
+								</div>
+								<div class="col-1"></div>
+								<div class="col-8">
+									<h5 style="font-weight: bold;">#{renting.vehicleName}</h5>
+									<h6>Receive: #{renting.receiveStringDate} -
+										#{renting.receivingOffice}</h6>
+									<h6>Return: #{renting.returnStringDate} -
+										#{renting.returningOffice}</h6>
+								</div>
+							</div>
+                            </p:repeat>
+						</div>
+
+
+					</div>
+					<div class="col-2"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12"
+				style="border-top-style: groove; margin-top: 5%; background-color: #717171;">
+				<div class="row">
+					<div class="col-2">
+						<h6 style="color: white; margin-top: -3%;">HELP / CONTACT</h6>
+						<h6
+							style="color: white; margin-top: -3%; font-size: 93%; margin-left: 5%;">0850-346-8080</h6>
+					</div>
+					<div class="col-8"></div>
+					<div class="col-2"></div>
+				</div>
+
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-8">
+						<h6 style="text-align: center; margin-bottom: -20px;">©
+							Copyright 2019 GRENT Inc. All rights are reserverd.</h6>
+					</div>
+					<div class="col-2"></div>
+				</div>
+
+			</div>
+		</div>
+
+	</h:form>
+</h:body>
+</html>

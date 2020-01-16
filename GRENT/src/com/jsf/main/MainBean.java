@@ -41,6 +41,7 @@ public class MainBean implements Serializable {
 	private Date returningDate;
 	private boolean loginControl;
 	private Date maxdate;
+	private boolean userControl;
 
 	@PostConstruct
 	public void init() {
@@ -53,9 +54,8 @@ public class MainBean implements Serializable {
 			DatabaseManager.initiliaze();
 			connection = DatabaseManager.getConnection();
 			receiveOffices();
+			loginControl();
 		}
-		
-		loginControl();
 		this.maxdate = new Date();
 	}
 	
@@ -76,10 +76,16 @@ public class MainBean implements Serializable {
 	 * Check whether user logged in.
 	 */
 	public void loginControl() {
-		if(LoginManager.isLoggedIn()){
+		if(LoginManager.isLoggedIn() && LoginManager.getRole().equals("RegisteredUser")){
 			this.loginControl = true;
 		}else {
 			this.loginControl = false;
+		}
+		
+		if(LoginManager.isLoggedIn() && (LoginManager.getRole().equals("OfficeUser") || LoginManager.getRole().equals("Admin"))){
+			this.userControl = true;
+		}else {
+			this.userControl = false;
 		}
 	}
 	
@@ -262,6 +268,9 @@ public class MainBean implements Serializable {
 	}
 	public Date getMaxdate() {
 		return maxdate;
+	}
+	public boolean isUserControl() {
+		return userControl;
 	}
 
 }
