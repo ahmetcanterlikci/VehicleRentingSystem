@@ -172,7 +172,8 @@
 				</p:selectOneMenu>
 				<h5>Receiving Date</h5>
 				<p:datePicker id="receiveDate" showIcon="true" showTime="true"
-					style="width:250px;" value="#{mainBean.receivingDate}" />
+					style="width:250px;" value="#{mainBean.receivingDate}"
+					navigator="true" yearRange="today:c:+2" />
 				<!-- value="#{dropdownView.country}"  -->
 				<h5>Returning Date</h5>
 				<p:datePicker id="returnDate" showIcon="true"

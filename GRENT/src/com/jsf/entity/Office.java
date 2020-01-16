@@ -28,6 +28,7 @@ public class Office {
 		super();
 		this.name = name;
 		this.isDeleted = isDeleted;
+		
 		this.email = email;
 		this.address = address;
 		this.phone = phone;
