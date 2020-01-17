@@ -113,37 +113,43 @@
 				<div class="topnav">
 					<div class="row">
 						<div class="col-4">
-							<a class="active" href="index.xhtml">Home</a> <a
-								href="offices.xhtml">Offices</a> <a href="beta.xhtml">Vehicles</a>
+							<a href="index.xhtml">Home</a> <a
+								href="offices.xhtml">Offices</a> <a href="vehicles.xhtml">Vehicles</a>
 							<a href="beta.xhtml">About</a> <a href="beta.xhtml">Contact</a>
 						</div>
-						<div class="col-5"></div>
-						<div class="col-3">
-							<div class="dropdown" style="margin-left: 10%;">
-								<button class="dropbtn" style="width: 150%;">#{mainBean.navigationBarName}</button>
-								<div class="dropdown-content">
-									<p:repeat value="#{mainBean.navigationBarContents}"
-										var="content">
-										<p:commandLink action="#{mainBean.navigationAction}">
-											<h:outputText value="#{content.name}" />
-											<f:param name="exit" value="#{content.name}" />
-											<f:param name="path" value="#{content.path}" />
-										</p:commandLink>
-									</p:repeat>
+						<div class="col-6"></div>
+						<div class="col-1">
+							<div style="margin-left: -7%; margin-top: 1%;">
+								<div class="dropdown">
+									<button class="dropbtn" style="width: 150%; max-width: 150px;">#{mainBean.navigationBarName}</button>
+									<div class="dropdown-content">
+										<p:repeat value="#{mainBean.navigationBarContents}"
+											var="content">
+											<p:commandLink action="#{mainBean.navigationAction}">
+												<h:outputText value="#{content.name}" />
+												<f:param name="exit" value="#{content.name}" />
+												<f:param name="path" value="#{content.path}" />
+											</p:commandLink>
+										</p:repeat>
+									</div>
 								</div>
 							</div>
+						</div>
+						<div class="col-1">
 							<ui:fragment rendered="#{mainBean.loginControl == true}">
-								<a href="chart.xhtml" style="float: right; margin-top: -1%;">
+								<a href="chart.xhtml" style="margin-left: 14%; margin-top: -1%;">
 									<i class="fas fa-shopping-cart"
 									style="font-size: 36px; float: right;"></i>
 								</a>
 							</ui:fragment>
+
 							<ui:fragment rendered="#{mainBean.loginControl == false}">
-								<a href="login.xhtml" style="float: right; margin-top: -1%;">
+								<a href="login.xhtml" style="margin-left: 14%; margin-top: -1%;">
 									<i class="fas fa-shopping-cart"
 									style="font-size: 36px; float: right;"></i>
 								</a>
 							</ui:fragment>
+
 						</div>
 					</div>
 				</div>

@@ -54,9 +54,10 @@ public class MainBean implements Serializable {
 			DatabaseManager.initiliaze();
 			connection = DatabaseManager.getConnection();
 			receiveOffices();
-			loginControl();
+			
 		}
 		this.maxdate = new Date();
+		loginControl();
 	}
 	
 	/**
@@ -76,7 +77,7 @@ public class MainBean implements Serializable {
 	 * Check whether user logged in.
 	 */
 	public void loginControl() {
-		if(LoginManager.isLoggedIn() && LoginManager.getRole().equals("RegisteredUser")){
+		if(LoginManager.isLoggedIn()){
 			this.loginControl = true;
 		}else {
 			this.loginControl = false;
@@ -177,7 +178,7 @@ public class MainBean implements Serializable {
 			}
 		} else {
 			this.navigationBarContents.add(new NavigationBarContent("Login", "login.xhtml"));
-			this.navigationBarContents.add(new NavigationBarContent("Register", "beta.xhtml"));
+			this.navigationBarContents.add(new NavigationBarContent("Register", "register.xhtml"));
 		}
 	}
 	

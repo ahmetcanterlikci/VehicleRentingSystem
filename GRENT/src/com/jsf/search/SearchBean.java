@@ -49,6 +49,7 @@ public class SearchBean implements Serializable{
 	private Date receivingDate;
 	private Date returningDate;
 	private boolean staticCheck;
+	private boolean registeredUserControl;
 	
 	/**
 	 * Initialize method of the class.
@@ -77,6 +78,8 @@ public class SearchBean implements Serializable{
 		
 		vehicleCount = vehicles.size();
 		selectedVehicles = vehicles;
+		registeredUserCheck();
+		
 		
 	}
 	
@@ -220,6 +223,16 @@ public class SearchBean implements Serializable{
 	    
 	    vehicles = newvehiclesArrayList;
 	    
+	}
+	
+	public void registeredUserCheck() {
+		if(LoginManager.isLoggedIn()) {
+			if(LoginManager.getRole().equals("RegisteredUser")) {
+				registeredUserControl = true;
+			}else {
+				registeredUserControl = false;
+			}
+		}
 	}
 	
 	/**
@@ -596,6 +609,10 @@ public class SearchBean implements Serializable{
 	
 	public void setVehicleCount(int vehicleCount) {
 		this.vehicleCount = vehicleCount;
+	}
+	
+	public boolean isRegisteredUserControl() {
+		return registeredUserControl;
 	}
 
 }

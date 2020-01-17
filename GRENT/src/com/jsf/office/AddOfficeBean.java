@@ -25,6 +25,7 @@ import com.jsf.entity.RegisteredUser;
 @ManagedBean
 @ViewScoped
 public class AddOfficeBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Connection connection;
 	private Office office;
 	private boolean officenameFlag;

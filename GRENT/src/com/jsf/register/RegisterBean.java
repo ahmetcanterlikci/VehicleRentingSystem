@@ -138,8 +138,7 @@ public class RegisterBean implements Serializable {
 						pstmt7.setString(2, email);
 						pstmt7.setString(3, password);
 						pstmt7.executeUpdate();
-						updateLoginManager(username, "RegisteredUser");
-						directToHomePage();
+						directToLoginPage();
 					} else {
 						if (usernametaken) {
 							if (emailtaken) {
@@ -187,6 +186,16 @@ public class RegisterBean implements Serializable {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		try {
 			ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void directToLoginPage() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			ec.redirect(ec.getRequestContextPath() + "/login.xhtml");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

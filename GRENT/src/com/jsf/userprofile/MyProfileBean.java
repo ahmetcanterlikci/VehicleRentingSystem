@@ -50,7 +50,7 @@ public class MyProfileBean implements Serializable {
 				profilecontens.add(new MyProfileContent("Account Information", "accountinfo.xhtml","fas fa-id-card"));
 				profilecontens.add(new MyProfileContent("Change Password", "changepassword.xhtml", "fas fa-lock"));
 				profilecontens.add(new MyProfileContent("Rentings", "rentings.xhtml", "fas fa-car-alt"));
-				profilecontens.add(new MyProfileContent("Users", "users.xhtml", "fas fa-user"));
+				profilecontens.add(new MyProfileContent("Users", "beta.xhtml", "fas fa-user"));
 			}
 		}
 		

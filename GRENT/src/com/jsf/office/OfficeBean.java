@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import com.jsf.authentication.LoginManager;
 import com.jsf.database.DatabaseManager;
 import com.jsf.entity.Office;
 
@@ -29,6 +31,7 @@ public class OfficeBean implements Serializable {
 	private ArrayList<Office> selectedOffices;
 	private int officeCount;
 	private Connection connection;
+	private boolean adminCheck;
 
 	/**
 	 * Initialize method of the class
@@ -54,6 +57,13 @@ public class OfficeBean implements Serializable {
 		receiveNames();
 		officeCount = Offices.size();
 		selectedOffices = Offices;
+		initAdminControl();
+	}
+	
+	public void initAdminControl() {
+		if(LoginManager.isLoggedIn() && LoginManager.getRole().equals("Admin")) {
+			adminCheck = true;
+		}
 	}
 	
 	/**
@@ -324,6 +334,10 @@ public class OfficeBean implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	public boolean isAdminCheck() {
+		return adminCheck;
 	}
 
 }

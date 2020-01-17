@@ -1,0 +1,377 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>GRENT - HOME</title>
+	<script src="https://kit.fontawesome.com/f4dcd45d8c.js"></script>
+
+	<script type="text/javascript">
+		PrimeFaces.locales['de'] = {
+			closeText : 'Schließen',
+			prevText : 'Zurück',
+			nextText : 'Weiter',
+			monthNames : [ 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+					'Juli', 'August', 'September', 'Oktober', 'November',
+					'Dezember' ],
+			monthNamesShort : [ 'Jan', 'Feb', 'März', 'Apr', 'Mai', 'Jun',
+					'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez' ],
+			dayNames : [ 'Sonntag', 'Montag', 'Dienstag', 'Mittwoch',
+					'Donnerstag', 'Freitag', 'Samstag' ],
+			dayNamesShort : [ 'Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam' ],
+			dayNamesMin : [ 'S', 'M', 'D', 'M ', 'D', 'F ', 'S' ],
+			weekHeader : 'Woche',
+			FirstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Nur Zeit',
+			timeText : 'Zeit',
+			hourText : 'Stunde',
+			minuteText : 'Minute',
+			secondText : 'Sekunde',
+			currentText : 'Aktuelles Datum',
+			ampm : false,
+			month : 'Monat',
+			week : 'Woche',
+			day : 'Tag',
+			allDayText : 'Ganzer Tag'
+		};
+		PrimeFaces.locales['de'] = {
+			closeText : 'Schließen',
+			prevText : 'Zurück',
+			nextText : 'Weiter',
+			monthNames : [ 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+					'Juli', 'August', 'September', 'Oktober', 'November',
+					'Dezember' ],
+			monthNamesShort : [ 'Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun',
+					'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez' ],
+			dayNames : [ 'Sonntag', 'Montag', 'Dienstag', 'Mittwoch',
+					'Donnerstag', 'Freitag', 'Samstag' ],
+			dayNamesShort : [ 'Son', 'Mon', 'Die', 'Mit', 'Don', 'Fre', 'Sam' ],
+			dayNamesMin : [ 'S', 'M', 'D', 'M ', 'D', 'F ', 'S' ],
+			weekHeader : 'Woche',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Nur Zeit',
+			timeText : 'Zeit',
+			hourText : 'Stunde',
+			minuteText : 'Minute',
+			secondText : 'Sekunde',
+			currentText : 'Aktuelles Datum',
+			ampm : false,
+			month : 'Monat',
+			week : 'Woche',
+			day : 'Tag',
+			allDayText : 'Ganzer Tag'
+		};
+	</script>
+
+	<style type="text/css">
+.value {
+	font-weight: bold;
+}
+</style>
+
+</h:head>
+<h:body>
+
+	<h:outputStylesheet libray="default" name="css/main.css" />
+	<h:outputStylesheet libray="default" name="css/w3.css" />
+	<h:outputScript library="js" name="main.js" />
+
+	<h:form>
+
+		<div class="row">
+			<div class="col-3">
+				<div class="header">
+					<h1 style="font-weight: bold; margin-bottom: -5%; margin-top: -4%;">GRENT</h1>
+				</div>
+			</div>
+
+			<div class="col-7"></div>
+
+			<div class="col-2" style="margin-top: 1%;">
+				<a href="beta.xhtml"> <i class="fab fa-facebook"
+					style="font-size: 30px; margin-right: 5%; margin-left: 15%"></i></a> <a
+					href="beta.xhtml"> <i class="fab fa-twitter"
+					style="font-size: 30px; margin-right: 5%"></i></a> <a href="beta.xhtml">
+					<i class="fab fa-instagram" style="font-size: 30px;"></i>
+				</a>
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+
+				<div class="topnav">
+					<div class="row">
+						<div class="col-4">
+							<a href="index.xhtml">Home</a> <a
+								href="offices.xhtml">Offices</a> <a href="vehicles.xhtml">Vehicles</a>
+							<a href="beta.xhtml">About</a> <a href="beta.xhtml">Contact</a>
+						</div>
+						<div class="col-6"></div>
+						<div class="col-1">
+							<div style="margin-left: -7%; margin-top: 1%;">
+								<div class="dropdown">
+									<button class="dropbtn" style="width: 150%; max-width: 150px;">#{mainBean.navigationBarName}</button>
+									<div class="dropdown-content">
+										<p:repeat value="#{mainBean.navigationBarContents}"
+											var="content">
+											<p:commandLink action="#{mainBean.navigationAction}">
+												<h:outputText value="#{content.name}" />
+												<f:param name="exit" value="#{content.name}" />
+												<f:param name="path" value="#{content.path}" />
+											</p:commandLink>
+										</p:repeat>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-1">
+							<ui:fragment rendered="#{mainBean.loginControl == true}">
+								<a href="chart.xhtml" style="margin-left: 14%; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
+
+							<ui:fragment rendered="#{mainBean.loginControl == false}">
+								<a href="login.xhtml" style="margin-left: 14%; margin-top: -1%;">
+									<i class="fas fa-shopping-cart"
+									style="font-size: 36px; float: right;"></i>
+								</a>
+							</ui:fragment>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-2"></div>
+			<div class=" col-8 w3-container w3-card-4 w3-light-grey">
+				<div class="row">
+					<div class="col-12">
+						<h2 style="border-bottom-style: groove; font-weight: bold;">Renting
+							Information</h2>
+					</div>
+				</div>
+
+				<ui:fragment
+					rendered="#{rentingDetailsBean.officeUserCheck == true}">
+					<div class="row">
+						<div class="col-5">
+							<div style="margin-left: 27%; margin-bottom: 3%;">
+								<h4>Order Number</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.orderNumber}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Returning Date</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.returnStringDate}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Receiving Date</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.receiveStringDate}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Returning Office</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.returningOffice}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Receiving Office</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.receivingOffice}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Renting Date</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.rentingStringDate}}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Status</h4>
+								<p:selectOneMenu id="statusList"
+									value="#{rentingDetailsBean.renting.status}" style="width:82%;">
+									<f:selectItem itemLabel="Not Specified" itemValue="" />
+									<f:selectItem itemLabel="Active" itemValue="Active" />
+									<f:selectItem itemLabel="Completed" itemValue="Completed" />
+								</p:selectOneMenu>
+
+							</div>
+						</div>
+						<div class="col-5">
+							<div style="margin-left: 37%; margin-bottom: 3%;">
+								<h4>Customer Name</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.userName}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Customer Surname</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.userSurname}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Customer Address</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.userAddress}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Customer Phone</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.userPhone}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Customer SSN</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.socialSecurityNo}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Total Price</h4>
+								<p:inputText value="$ #{rentingDetailsBean.renting.totalPrice}"
+									disabled="true" style="width: 90%;"></p:inputText>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-5">
+							<div style="margin-left: 27%; margin-bottom: 3%;">
+								<h4>Vehicle Name</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.vehicleName}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Vehicle Brand</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.vehicleBrand}"
+									disabled="true" style="width: 90%;"></p:inputText>
+								<h4>Vehicle Plate Number</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.vehiclePlateNumber}"
+									disabled="true" style="width: 90%;"></p:inputText>
+
+								<p:commandButton value="Save" id="saveButton"
+									style="margin-top: 13%; width: 45%; font-size: 20px;"
+									action="#{rentingDetailsBean.saveOfficeUser}"
+									update="warningMessage" />
+								<br />
+								<p:messages id="warningMessage" />
+							</div>
+						</div>
+					</div>
+				</ui:fragment>
+
+				<ui:fragment rendered="#{rentingDetailsBean.adminCheck == true}">
+					<div class="row">
+						<div class="col-5">
+							<div style="margin-left: 27%; margin-bottom: 3%;">
+								<h4>Order Number</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.orderNumber}"
+									 style="width: 90%;"></p:inputText>
+								<h4>Returning Date</h4>
+								<p:calendar id="returnDate" navigator="true" timeInput="true"
+									style="width:250px;" value="#{rentingDetailsBean.renting.returnStringDate}"
+									yearRange="c-50:c"
+									autocomplete="off" showOn="both" pattern="yyyy-MM-dd HH:mm:ss" />
+								<h4>Receiving Date</h4>
+								<p:calendar id="receiveDate" navigator="true" timeInput="true"
+									style="width:250px;" value="#{rentingDetailsBean.renting.receiveStringDate}"
+									yearRange="c-50:c"
+									autocomplete="off" showOn="both" pattern="yyyy-MM-dd HH:mm:ss" />
+								<h4>Returning Office</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.returningOffice}"
+									style="width: 90%;"></p:inputText>
+								<h4>Receiving Office</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.receivingOffice}"
+									style="width: 90%;"></p:inputText>
+								<h4>Renting Date</h4>
+								<p:calendar id="rentingDate" navigator="true" timeInput="true"
+									style="width:250px;" value="#{rentingDetailsBean.rentingStringDate}"
+									yearRange="c-50:c"
+									autocomplete="off" showOn="both" pattern="yyyy-MM-dd HH:mm:ss" />
+								<h4>Status</h4>
+								<p:selectOneMenu id="statusList2"
+									value="#{rentingDetailsBean.renting.status}" style="width:82%;">
+									<f:selectItem itemLabel="Not Specified" itemValue="" />
+									<f:selectItem itemLabel="Active" itemValue="Active" />
+									<f:selectItem itemLabel="Completed" itemValue="Completed" />
+								</p:selectOneMenu>
+
+							</div>
+						</div>
+						<div class="col-5">
+							<div style="margin-left: 37%; margin-bottom: 3%;">
+								<h4>Customer Name</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.userName}"
+									 style="width: 90%;"></p:inputText>
+								<h4>Customer Surname</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.userSurname}"
+									 style="width: 90%;"></p:inputText>
+								<h4>Customer Address</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.userAddress}"
+									 style="width: 90%;"></p:inputText>
+								<h4>Customer Phone</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.userPhone}"
+									 style="width: 90%;"></p:inputText>
+								<h4>Customer SSN</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.socialSecurityNo}"
+									 style="width: 90%;"></p:inputText>
+								<h4>Total Price</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.totalPrice}"
+									 style="width: 90%;"></p:inputText> $
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-5">
+							<div style="margin-left: 27%; margin-bottom: 3%;">
+								<h4>Vehicle Name</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.vehicleName}"
+									 style="width: 90%;"></p:inputText>
+								<h4>Vehicle Brand</h4>
+								<p:inputText value="#{rentingDetailsBean.renting.vehicleBrand}"
+									 style="width: 90%;"></p:inputText>
+								<h4>Vehicle Plate Number</h4>
+								<p:inputText
+									value="#{rentingDetailsBean.renting.vehiclePlateNumber}"
+									 style="width: 90%;"></p:inputText>
+
+								<p:commandButton value="Save" id="saveButton2"
+									style="margin-top: 13%; width: 45%; font-size: 20px;"
+									action="#{rentingDetailsBean.saveAdmin}"
+									update="warningMessage2" />
+								<br />
+								<p:messages id="warningMessage2" />
+							</div>
+						</div>
+					</div>
+				</ui:fragment>
+
+			</div>
+			<div class="col-2"></div>
+		</div>
+
+		<div class="row">
+			<div class="col-12"
+				style="border-top-style: groove; margin-top: 5%; background-color: #717171;">
+				<div class="row">
+					<div class="col-2">
+						<h6 style="color: white; margin-top: -3%;">HELP / CONTACT</h6>
+						<h6
+							style="color: white; margin-top: -3%; font-size: 93%; margin-left: 5%;">0850-346-8080</h6>
+					</div>
+					<div class="col-8"></div>
+					<div class="col-2"></div>
+				</div>
+
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col-8">
+						<h6 style="text-align: center; margin-bottom: -20px;">©
+							Copyright 2019 GRENT Inc. All rights are reserverd.</h6>
+					</div>
+					<div class="col-2"></div>
+				</div>
+
+			</div>
+		</div>
+
+	</h:form>
+
+</h:body>
+</html>

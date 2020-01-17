@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import com.jsf.authentication.LoginManager;
 import com.jsf.database.DatabaseManager;
 import com.jsf.entity.Vehicle;
 
@@ -40,6 +41,7 @@ public class VehicleBean implements Serializable{
 	private ArrayList<Vehicle> selectedVehicles;
 	private int vehicleCount;
 	private Connection connection;
+	private boolean adminCheck;
 	
 	
 	
@@ -71,24 +73,15 @@ public class VehicleBean implements Serializable{
 		
 		vehicleCount = vehicles.size();
 		selectedVehicles = vehicles;
+		initAdminControl();
 		
 	}
 	
-	/**
-	 * Add the selected vehicle to the chart of the corresponding RegisteredUser
-	 * @param v selected Vehicle object
-	 */
-	
-	
-	/**
-	 * Displays rent notification popup
-	 */
-
-	
-	/**
-	 * Take the data which come from search panel on the homepage.
-	 */
-
+	public void initAdminControl() {
+		if(LoginManager.isLoggedIn() && LoginManager.getRole().equals("Admin")) {
+			adminCheck = true;
+		}
+	}
 	
 	/**
 	 * Receive all vehicles in the system from database
@@ -520,6 +513,10 @@ public class VehicleBean implements Serializable{
 	
 	public void setVehicleCount(int vehicleCount) {
 		this.vehicleCount = vehicleCount;
+	}
+	
+	public boolean isAdminCheck() {
+		return adminCheck;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.jsf.userprofile;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,8 @@ import com.jsf.entity.Renting;
 
 @ManagedBean
 @ViewScoped
-public class MyRentingsBean {
+public class MyRentingsBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Renting renting;
 	private Connection connection;
 	private ArrayList<Renting> completedRentings;
@@ -51,7 +53,7 @@ public class MyRentingsBean {
 	
 	public void receiveRentings() {
 		try {
-			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM renting WHERE userUserName = ? ");
+			PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM renting WHERE userUserName = ? ORDER BY rentingDate desc ");
 			pstmt.setString(1, LoginManager.getUsername());
 			
 			ResultSet rs1 = pstmt.executeQuery();

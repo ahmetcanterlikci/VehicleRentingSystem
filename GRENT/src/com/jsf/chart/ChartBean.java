@@ -51,6 +51,7 @@ public class ChartBean implements Serializable {
 			this.loggedIn = true;
 		}
 
+		this.chart = new Chart();
 		receiveChart();
 		initShowChart();
 		initTotals();
